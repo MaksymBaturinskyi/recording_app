@@ -19,7 +19,7 @@ interface TextInterface
 	children: string | number;
 }
 
-const StyledText = styled.Text<TextInterface>`
+const StyledText = styled.p<TextInterface>`
 	${space}
 	${layout}
     ${color}

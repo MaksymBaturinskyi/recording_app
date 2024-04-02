@@ -14,6 +14,7 @@ import {
 	FlexProps,
 	justifyContent,
 	BorderProps,
+	FlexboxProps,
 	JustifyContentProps,
 } from 'styled-system';
 
@@ -23,6 +24,7 @@ export interface BlockInterface
 		ColorProps,
 		BorderProps,
 		FlexProps,
+		FlexboxProps,
 		JustifyContentProps {
 	children: React.ReactNode;
 	br?: string;

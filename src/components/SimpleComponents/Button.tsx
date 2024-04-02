@@ -22,8 +22,9 @@ interface ButtonInterface
 		SpaceProps,
 		LayoutProps,
 		ColorProps {
-	onPress: () => void;
+	onClick: () => void;
 	children: React.ReactNode;
+	cursor?: string;
 }
 
 const StyledButton = styled.button<ButtonInterface>`
@@ -35,6 +36,7 @@ const StyledButton = styled.button<ButtonInterface>`
     ${flexbox}
     ${shadow}
     ${justifyContent}
+	cursor: pointer;
 `;
 
 export const Button: FC<ButtonInterface> = ({ children, ...rest }) => (
