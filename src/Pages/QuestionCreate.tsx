@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Block, Button} from "../components/SimpleComponents";
+import {Block, Button, Text} from "../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
+import {Container} from "../components/SimpleComponents/Container";
 
-interface ReactMediaRecorderHookProps {
-    startRecording: () => void;
-    stopRecording: () => void;
-    pauseRecording: () => void;
-    mediaBlobUrl?: string | null;
 
-}
+const stepsListData = [
+    "1. Record a question",
+    "2. Invite them to answer",
+
+]
 
 const QuestionCreate: React.FC = () => {
     const [second, setSecond] = useState<string>("00");
@@ -64,18 +64,26 @@ const QuestionCreate: React.FC = () => {
     }, [recorder.recordingBlob]);
 
     return (
-        <div
-            style={{
-                width: "100%",
-                display: "flex",
-                border: "1px solid black",
-                backgroundColor: "black",
-                height: "100vh",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-            }}
+        <Container
+            flexDirection={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            width={"100%"}
+            height={"100vh"}
         >
+
+            <Text
+                fontWeight={"bold"}
+                fontSize={4}
+                width={"100%"}
+            >
+                Start building your family
+                history vault question by
+                questions.
+            </Text>
+
+
+
             <div style={{
                 width: "100%",
                 display: "flex",
@@ -204,7 +212,8 @@ const QuestionCreate: React.FC = () => {
                 </div>
                 <b></b>
             </div>
-        </div>
+        </Container>
+
     );
 };
 

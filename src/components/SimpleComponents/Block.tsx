@@ -31,6 +31,7 @@ export interface BlockInterface
 }
 
 export const StyledBlock = styled.div<BlockInterface>`
+	display: flex;
 	${color}
 	${space}
     ${layout}
