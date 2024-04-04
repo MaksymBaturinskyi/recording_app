@@ -56,7 +56,8 @@ const QuestionShare: React.FC = () => {
                 boxShadow={"inset 2px 0 7px grey"}
                 border={"1px solid lightGrey"}
                 position={"relative"}
-
+                py={3}
+                px={2}
             >
 
                 <PhoneInput
