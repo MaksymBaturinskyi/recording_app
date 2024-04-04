@@ -9,15 +9,19 @@ import {
 	SpaceProps,
 	typography,
 	TypographyProps,
+	border,
+	BorderProps,
 } from 'styled-system';
 
 interface TextInputInterface
 	extends SpaceProps,
 		LayoutProps,
 		ColorProps,
-		TypographyProps {
-	onChangeText: (textValue: string) => void;
+		TypographyProps,
+		BorderProps {
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	value?: string;
+	placeholder?: string;
 }
 
 const StyledTextInput = styled.input<TextInputInterface>`
@@ -25,6 +29,7 @@ const StyledTextInput = styled.input<TextInputInterface>`
 	${layout}
     ${color}
     ${typography}
+    ${border}
 `;
 
 export const SimpleInput: FC<TextInputInterface> = props => {

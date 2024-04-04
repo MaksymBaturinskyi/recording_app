@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {FC, MouseEvent} from 'react';
 import styled from 'styled-components';
 import {
 	space,
@@ -22,9 +22,10 @@ interface ButtonInterface
 		SpaceProps,
 		LayoutProps,
 		ColorProps {
-	onClick: () => void;
+	onClick: (e:MouseEvent) => void;
 	children: React.ReactNode;
 	cursor?: string;
+	disabled?: boolean;
 }
 
 const StyledButton = styled.button<ButtonInterface>`

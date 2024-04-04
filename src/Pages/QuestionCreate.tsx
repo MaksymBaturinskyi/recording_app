@@ -1,14 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
+import {useNavigate, useNavigation} from "react-router-dom";
+import ReactAudioPlayer from "react-audio-player";
+import play from "../assets/images/play.png";
 
 
 const stepsListData = [
     "1. Record a question",
     "2. Invite them to answer",
-
+    "3. We'll store it in your family history vault forever",
 ]
 
 const QuestionCreate: React.FC = () => {
@@ -16,10 +19,11 @@ const QuestionCreate: React.FC = () => {
     const [minute, setMinute] = useState<string>("00");
     const [isActive, setIsActive] = useState<boolean>(false);
     const [counter, setCounter] = useState<number>(0);
-    const [tracksList, setTracksList] = useState<string[]>(['asd']);
+    const [trackUrl, setTrackUrl] = useState<string>("");
+    const [waitForSend, setWaitForSend] = useState<boolean>(false);
     const [selectedTrackUrl, setSelectedTrackUrl] = useState<string | null>(null);
     const recorder = useAudioRecorder();
-
+    const navigate = useNavigate()
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -59,159 +63,213 @@ const QuestionCreate: React.FC = () => {
     useEffect(() => {
         if (recorder.recordingBlob) {
             const url = URL.createObjectURL(recorder.recordingBlob);
-            setTracksList((tracksState: string[]) => [...tracksState, url]);
+            setTrackUrl(url);
         }
     }, [recorder.recordingBlob]);
 
+    useEffect(() => {
+        if (trackUrl && waitForSend) {
+            navigate("/share")
+
+        }
+    }, [trackUrl, waitForSend]);
+
+    const handleRecordingSwitch = () => {
+        setTrackUrl("")
+        if (!recorder.isRecording) {
+            recorder.startRecording();
+        } else {
+            recorder.stopRecording();
+            stopTimer();
+            setIsActive(false);
+        }
+
+        setIsActive(!isActive);
+    }
+
+    const handleSendPrepare = () => {
+        if (recorder.isRecording) {
+            handleRecordingSwitch()
+        }
+        setWaitForSend(true)
+    }
+
+    const handleRecordingStart = () => {
+        handleRecordingSwitch()
+        setTrackUrl("")
+        setWaitForSend(false)
+    }
+
     return (
         <Container
+            pt={5}
             flexDirection={"column"}
-            justifyContent={"center"}
             alignItems={"center"}
             width={"100%"}
-            height={"100vh"}
+            minHeight={"100vh"}
+            maxWidth={"640px"}
         >
-
+            <Block
+                mt={3}
+                width={"100%"}
+            >
+                <Button onClick={() => navigate(-1)}>Back</Button>
+            </Block>
             <Text
+                mt={3}
                 fontWeight={"bold"}
                 fontSize={4}
                 width={"100%"}
+                textDecoration={"underline"}
+
             >
-                Start building your family
-                history vault question by
-                questions.
+                Ask your first question
             </Text>
 
-
-
-            <div style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "38px"
-            }}>
-                {" "}
-                <audio src={selectedTrackUrl || ""} controls/>
-            </div>
-
             <Block
+                mt={3}
                 width={"100%"}
-                display={"flex"}
-                flexDirection={"column"}
                 justifyContent={"center"}
-                alignItems={"center"}
+
             >
-                {
-                    tracksList.map((trackUrl: string, index: number) => {
-                        return (
-                            <Button
-                                cursor={"pointer"}
-                                key={index}
-                                mt={1}
-                                onClick={() => setSelectedTrackUrl(trackUrl)}
-                                px={2}
-                                py={3}
-                                backgroundColor={"transparent"}
-                                color={"white"}
-                                borderWidth={0}
-                                borderRadius={8}
+                <Button
+                    height={"150px"}
+                    width={"70px"}
+                    borderRadius={"70px"}
+                    boxShadow={"inset 2px 0 7px grey"}
+                    border={"1px solid lightGrey"}
+                    position={"relative"}
+                    onClick={handleRecordingStart}
+                    // disabled={recorder.isPaused}
+                >
+                    <Block
+                        width={"50px"}
+                        height={"50px"}
+                        borderRadius={"50px"}
+                        backgroundColor={recorder.isRecording ? "darkRed" : "white"}
+                        opacity={recorder.isPaused ? 0.5 : 1}
+                        position={"absolute"}
+                        top={recorder.isRecording  ? "10px" : "calc(100% - 60px)"}
+                        left={"50%"}
+                        transform={"translateX(-50%)"}
+                        boxShadow={"0 0 10px grey"}
+                    />
+
+                    <Block
+                        position={"absolute"}
+                        left={"calc(100% + 20px)"}
+                        top={"22px"}
+                    >
+                        <Text
+                            fontSize={3}
+                            fontWeight={"bold"}
+                        >
+                            {`${minute}:${second}`}
+                        </Text>
+                    </Block>
+
+
+                    {
+                        recorder.isRecording &&
+                        <Button
+                            position={"absolute"}
+                            width={"100%"}
+                            left={"calc(100% + 20px)"}
+                            bottom={"22px"}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                recorder.togglePauseResume();
+                                setIsActive(!isActive)
+                            }}
+                        >
+                            <Text
+                                fontSize={3}
                             >
-                                {trackUrl}
-                            </Button>
-                        );
-                    })
-                }
+                                {!recorder.isPaused ? "Pause" : "Record"}
+                            </Text>
+                        </Button>
+                    }
+
+                </Button>
+
 
             </Block>
-            <div
-                style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
-                }}
+            <Text
+                marginTop={4}
+                fontWeight={"bold"}
+                fontSize={5}
+                width={"100%"}
             >
-                <div
+                Ask a question you
+                want answered
+            </Text>
 
-                    style={{
-                        marginTop: "20px",
-                        fontSize: "54px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        textAlign: "center",
-                    }}>
-                    <span className="minute">{minute}</span>
-                    <span>:</span>
-                    <span className="second">{second}</span>
-                </div>
-                <div style={{display: "flex"}}>
-                    <label
-                        style={{
-                            fontSize: "15px",
-                            fontWeight: "Normal"
-                        }}
-                        htmlFor="icon-button-file"
+            <Block
+                justifyContent={"center"}
+                width={"100%"}
+                mt={4}
+            >
+                <Button
+                    width={"100%"}
+                    maxWidth={"300px"}
+                    px={4}
+                    py={3}
+                    backgroundColor={recorder.isRecording || trackUrl ? "#42b72a" : "lightGrey"}
+                    borderRadius={8}
+                    borderWidth={0}
+                    ml={2}
+                    color={"white"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    onClick={handleSendPrepare}
+                >
+                    <Text
+                        fontWeight={"bold"}
+                        fontSize={2}
+                        color={trackUrl ? "white" : "black"}
                     >
-                        <h3 style={{fontWeight: "normal", textAlign: "center"}}>
-                            Press the Start to record
-                        </h3>
+                        Send
+                    </Text>
+                </Button>
+            </Block>
 
-                        {recorder.mediaRecorder && (
-                            <LiveAudioVisualizer
-                                mediaRecorder={recorder.mediaRecorder}
-                                width={200}
-                                height={75}
-                            />
-                        )}
+            {recorder.mediaRecorder && (
+                <LiveAudioVisualizer
+                    mediaRecorder={recorder.mediaRecorder}
+                    width={200}
+                    height={75}
+                />
+            )}
 
-                        <div>
-                            <Button
-                                px={4}
-                                py={3}
-                                backgroundColor={"#42b72a"}
-                                borderRadius={8}
-                                borderWidth={0}
-                                ml={2}
-                                color={"white"}
-                                onClick={() => {
-                                    if (!recorder.isRecording) {
-                                        recorder.startRecording();
-                                    } else {
-                                        recorder.togglePauseResume();
-                                    }
+            {
+                trackUrl &&
+                <Block
+                    width={"100%"}
+                    justifyContent={"center"}
+                    mt={'auto'}
+                    mb={5}
+                >
+                    <Button
+                        width={"50px"}
+                        height={"50px"}
+                        borderRadius={"50px"}
+                        backgroundColor={recorder.isRecording && !recorder.isPaused ? "darkRed" : "white"}
+                        // position={"absolute"}
+                        // top={recorder.isRecording && !recorder.isPaused ? "10px" : "calc(100% - 60px)"}
+                        // left={"50%"}
+                        // transform={"translateX(-50%)"}
+                        boxShadow={"0 0 10px grey"}
+                        onClick={() => {
+                            const audioToPlay = new Audio(trackUrl);
+                            audioToPlay.play();
+                        }}
+                    >
+                        <img src={play} alt="play" style={{width: "20px", height: "20px"}}/>
+                    </Button>
+                </Block>
+            }
 
-                                    setIsActive(!isActive);
-                                }}
-                            >
-                                {isActive ? "Pause" : "Start"}
-                            </Button>
-                            <Button
-                                px={4}
-                                py={3}
-                                backgroundColor={"#df3636"}
-                                borderRadius={8}
-                                borderWidth={0}
-                                ml={2}
-                                color={"white"}
-                                onClick={() => {
-                                    recorder.stopRecording();
-                                    //@ts-ignore
-                                    // handleFile(recorder.recordingBlob);
-                                    stopTimer();
-                                    setIsActive(false);
-                                }}
-                            >
-                                Stop
-                            </Button>
-                        </div>
-                    </label>
-                </div>
-                <b></b>
-            </div>
         </Container>
 
     );

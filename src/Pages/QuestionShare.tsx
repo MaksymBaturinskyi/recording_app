@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Block, Button, Text} from "../components/SimpleComponents";
+import {Block, Button, SimpleInput, Text} from "../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
+import {Container} from "../components/SimpleComponents/Container";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 interface ReactMediaRecorderHookProps {
     startRecording: () => void;
@@ -11,75 +14,62 @@ interface ReactMediaRecorderHookProps {
 
 }
 
-const QuestionCreate: React.FC = () => {
-    const [second, setSecond] = useState<string>("00");
-    const [minute, setMinute] = useState<string>("00");
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [counter, setCounter] = useState<number>(0);
-    const [tracksList, setTracksList] = useState<string[]>(['asd']);
-    const [selectedTrackUrl, setSelectedTrackUrl] = useState<string | null>(null);
-    const recorder = useAudioRecorder();
+const QuestionShare: React.FC = () => {
+    const [phoneValue, setPhoneValue] = useState<string>("");
 
-
-    useEffect(() => {
-        let intervalId: NodeJS.Timeout;
-
-        if (isActive) {
-            intervalId = setInterval(() => {
-                const secondCounter = counter % 60;
-                const minuteCounter = Math.floor(counter / 60);
-
-                const computedSecond =
-                    String(secondCounter).length === 1
-                        ? `0${secondCounter}`
-                        : String(secondCounter);
-                const computedMinute =
-                    String(minuteCounter).length === 1
-                        ? `0${minuteCounter}`
-                        : String(minuteCounter);
-
-                setSecond(computedSecond);
-                setMinute(computedMinute);
-
-                setCounter((counter) => counter + 1);
-            }, 1000);
-        }
-
-        return () => clearInterval(intervalId);
-    }, [isActive, counter]);
-
-    function stopTimer(): void {
-        setIsActive(false);
-        setCounter(0);
-        setSecond("00");
-        setMinute("00");
-    }
-
-
-    useEffect(() => {
-        if (recorder.recordingBlob) {
-            const url = URL.createObjectURL(recorder.recordingBlob);
-            setTracksList((tracksState: string[]) => [...tracksState, url]);
-        }
-    }, [recorder.recordingBlob]);
 
     return (
-        <div
-            style={{
-                width: "100%",
-                display: "flex",
-                border: "1px solid black",
-                backgroundColor: "black",
-                height: "100vh",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-            }}
+        <Container
+            paddingTop={4}
+            flexDirection={"column"}
+            // justifyContent={"center"}
+            alignItems={"center"}
+            width={"100%"}
+            minHeight={"100vh"}
+            maxWidth={"640px"}
         >
-            <Text>Question share</Text>
+            <Text
+                fontWeight={"bold"}
+                fontSize={4}
+                width={"100%"}
+                textDecoration={"underline"}
+            >
+                Start building your family
+                history vault question by
+                questions.
+            </Text>
 
-        </div>
+            <Text
+                marginTop={6}
+                fontWeight={"bold"}
+                fontSize={5}
+                width={"100%"}
+            >
+                Now lets get your loved
+                one to answer
+            </Text>
+
+            <Block
+                height={"20px"}
+                width={"100%"}
+                borderRadius={"70px"}
+                boxShadow={"inset 2px 0 7px grey"}
+                border={"1px solid lightGrey"}
+                position={"relative"}
+
+            >
+
+                <PhoneInput
+                    country="US"
+                    placeholder="Enter phone number"
+                    value={phoneValue}
+                    //@ts-ignore
+                    onChange={setPhoneValue}/>
+            </Block>
+
+
+        </Container>
     );
 };
 
-export default QuestionCreate;
+export default QuestionShare;

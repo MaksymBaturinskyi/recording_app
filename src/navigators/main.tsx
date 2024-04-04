@@ -3,6 +3,7 @@ import {RouterProvider, createBrowserRouter, createHashRouter} from 'react-route
 import CreateAccount from "../Pages/CreateAccount";
 import QuestionShare from "../Pages/QuestionShare";
 import QuestionCreate from "../Pages/QuestionCreate";
+import QuestionSteps from "../Pages/QuestionSteps";
 
 const router = createBrowserRouter([
     {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
+                element: <QuestionSteps/>,
+            },
+            {
+                path: "/questioncreate",
                 element: <QuestionCreate/>,
             },
             {
