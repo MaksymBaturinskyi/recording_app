@@ -45,3 +45,12 @@ input::placeholder {
         transform: rotate(360deg);
     }
 }
+
+.PhoneInput{
+    display: flex;
+    input{
+        font-size: 18px;
+        padding: 10px;
+        flex: 1;
+    }
+}

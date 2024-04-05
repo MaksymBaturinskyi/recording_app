@@ -4,7 +4,6 @@ import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
 import {useNavigate, useNavigation} from "react-router-dom";
-import ReactAudioPlayer from "react-audio-player";
 import play from "../assets/images/play.png";
 
 
@@ -21,7 +20,6 @@ const QuestionCreate: React.FC = () => {
     const [counter, setCounter] = useState<number>(0);
     const [trackUrl, setTrackUrl] = useState<string>("");
     const [waitForSend, setWaitForSend] = useState<boolean>(false);
-    const [selectedTrackUrl, setSelectedTrackUrl] = useState<string | null>(null);
     const recorder = useAudioRecorder();
     const navigate = useNavigate()
 
@@ -120,7 +118,6 @@ const QuestionCreate: React.FC = () => {
                 fontWeight={"bold"}
                 fontSize={4}
                 width={"100%"}
-                textDecoration={"underline"}
 
             >
                 Ask your first question
