@@ -119,7 +119,7 @@ const QuestionShare: React.FC = () => {
                             padding={3}
                             fontSize={"18px"}
                             borderRadius={"100px"}
-                            onChange={(e) => {
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setShareValue(e.target.value)
                             }}
                         />

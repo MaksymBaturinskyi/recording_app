@@ -1,17 +1,10 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
-import {useNavigate, useNavigation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import play from "../assets/images/play.png";
-
-
-const stepsListData = [
-    "1. Record a question",
-    "2. Invite them to answer",
-    "3. We'll store it in your family history vault forever",
-]
 
 const QuestionCreate: React.FC = () => {
     const [second, setSecond] = useState<string>("00");

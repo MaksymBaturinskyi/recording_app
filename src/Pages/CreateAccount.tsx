@@ -1,211 +1,149 @@
 import React, {useEffect, useState} from "react";
-import {Block, Button} from "../components/SimpleComponents";
+import {Block, Button, SimpleInput, Text} from "../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
+import {Container} from "../components/SimpleComponents/Container";
+import {useNavigate} from "react-router-dom";
 
-interface ReactMediaRecorderHookProps {
-    startRecording: () => void;
-    stopRecording: () => void;
-    pauseRecording: () => void;
-    mediaBlobUrl?: string | null;
+const formFields = [
+    {
+        placeholder: "Enter email address",
+        label: "Email",
+        type: "email",
+        fieldKey: "email"
+    },
+    {
+        placeholder: "Enter your password",
+        label: "Password",
+        type: "password",
+        fieldKey: "password"
 
+    }
+]
+
+interface loginFormInterface {
+    email?: string;
+    password?: string;
+    isValid?: boolean;
+    error?: {
+        email?: string;
+        password?: string;
+    };
 }
 
-const QuestionCreate: React.FC = () => {
-    const [second, setSecond] = useState<string>("00");
-    const [minute, setMinute] = useState<string>("00");
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [counter, setCounter] = useState<number>(0);
-    const [tracksList, setTracksList] = useState<string[]>(['asd']);
-    const [selectedTrackUrl, setSelectedTrackUrl] = useState<string | null>(null);
-    const recorder = useAudioRecorder();
+const AccountCreate: React.FC = () => {
+    const navigate = useNavigate()
 
+    const [formValue, setFormValue] = useState<loginFormInterface>({});
 
-    useEffect(() => {
-        let intervalId: NodeJS.Timeout;
-
-        if (isActive) {
-            intervalId = setInterval(() => {
-                const secondCounter = counter % 60;
-                const minuteCounter = Math.floor(counter / 60);
-
-                const computedSecond =
-                    String(secondCounter).length === 1
-                        ? `0${secondCounter}`
-                        : String(secondCounter);
-                const computedMinute =
-                    String(minuteCounter).length === 1
-                        ? `0${minuteCounter}`
-                        : String(minuteCounter);
-
-                setSecond(computedSecond);
-                setMinute(computedMinute);
-
-                setCounter((counter) => counter + 1);
-            }, 1000);
-        }
-
-        return () => clearInterval(intervalId);
-    }, [isActive, counter]);
-
-    function stopTimer(): void {
-        setIsActive(false);
-        setCounter(0);
-        setSecond("00");
-        setMinute("00");
+    const handleFormEvent = (fieldKey: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormValue({
+            ...formValue,
+            [fieldKey]: e.target.value
+        })
     }
+    console.log("formValue");
+    console.log(formValue);
 
-
-    useEffect(() => {
-        if (recorder.recordingBlob) {
-            const url = URL.createObjectURL(recorder.recordingBlob);
-            setTracksList((tracksState: string[]) => [...tracksState, url]);
-        }
-    }, [recorder.recordingBlob]);
-
+    const handleSubmit = () => {
+        // navigate('/accountcreate')
+    }
     return (
-        <div
-            style={{
-                width: "100%",
-                display: "flex",
-                border: "1px solid black",
-                backgroundColor: "black",
-                height: "100vh",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-            }}
+        <Container
+            flexDirection={"column"}
         >
-            <div style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "38px"
-            }}>
-                {" "}
-                <audio src={selectedTrackUrl || ""} controls/>
-            </div>
+            <Block
+                mt={3}
+                width={"100%"}
+            >
+                <Button onClick={() => navigate(-1)}>Back</Button>
+            </Block>
+            <Text
+                mt={5}
+                fontWeight={"bold"}
+                fontSize={4}
+                width={"100%"}
+
+            >
+                Now lets get your loved
+                one to answer
+            </Text>
 
             <Block
-                width={"100%"}
-                display={"flex"}
-                flexDirection={"column"}
                 justifyContent={"center"}
-                alignItems={"center"}
+                maxWidth={"640px"}
+                flexDirection={"column"}
+                alignSelf={"center"}
+                width={"100%"}
             >
-                {
-                    tracksList.map((trackUrl: string, index: number) => {
-                        return (
-                            <Button
-                                cursor={"pointer"}
-                                key={index}
-                                mt={1}
-                                onClick={() => setSelectedTrackUrl(trackUrl)}
-                                px={2}
-                                py={3}
-                                backgroundColor={"transparent"}
-                                color={"white"}
-                                borderWidth={0}
-                                borderRadius={8}
+                <Text
+                    mt={5}
+                    fontWeight={"bold"}
+                    fontSize={2}
+                    width={"100%"}
+
+                >Sign up</Text>
+                {formFields.map((field) => {
+                    return (
+                        <Block
+                            mt={3}
+                            width={"100%"}
+                            borderRadius={"30px"}
+                            boxShadow={"inset 2px 0 7px grey"}
+                            border={"1px solid lightGrey"}
+                            position={"relative"}
+                            flexWrap={"wrap"}
+                            key={field.fieldKey}
+                            px={4}
+                            py={2}
+                        >
+                            <Text
+                                color={"grey"}
+                                fontSize={2}
                             >
-                                {trackUrl}
-                            </Button>
-                        );
-                    })
-                }
-
-            </Block>
-            <div
-                style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
-                }}
-            >
-                <div
-
-                    style={{
-                        marginTop: "20px",
-                        fontSize: "54px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        textAlign: "center",
-                    }}>
-                    <span className="minute">{minute}</span>
-                    <span>:</span>
-                    <span className="second">{second}</span>
-                </div>
-                <div style={{display: "flex"}}>
-                    <label
-                        style={{
-                            fontSize: "15px",
-                            fontWeight: "Normal"
-                        }}
-                        htmlFor="icon-button-file"
-                    >
-                        <h3 style={{fontWeight: "normal", textAlign: "center"}}>
-                            Press the Start to record
-                        </h3>
-
-                        {recorder.mediaRecorder && (
-                            <LiveAudioVisualizer
-                                mediaRecorder={recorder.mediaRecorder}
-                                width={200}
-                                height={75}
+                                {field.label}
+                            </Text>
+                            <SimpleInput
+                                width={"100%"}
+                                fontSize={"18px"}
+                                placeholder={field.placeholder}
+                                border={0}
+                                onChange={handleFormEvent(field.fieldKey)}
                             />
-                        )}
+                        </Block>
+                    )
+                })}
+                <Button
+                    width={"100%"}
+                    maxWidth={"300px"}
+                    mt={4}
+                    px={4}
+                    py={3}
+                    backgroundColor={formValue.isValid ? "#42b72a" : "lightGrey"}
+                    disabled={!formValue.isValid}
+                    borderRadius={8}
+                    borderWidth={0}
+                    ml={2}
+                    color={"white"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    onClick={handleSubmit}
+                >
+                    <Text
+                        fontWeight={"bold"}
+                        fontSize={2}
+                        color={"white"}
+                    >
+                        Invite them to answer
+                    </Text>
+                </Button>
+            </Block>
 
-                        <div>
-                            <Button
-                                px={4}
-                                py={3}
-                                backgroundColor={"#42b72a"}
-                                borderRadius={8}
-                                borderWidth={0}
-                                ml={2}
-                                color={"white"}
-                                onClick={() => {
-                                    if (!recorder.isRecording) {
-                                        recorder.startRecording();
-                                    } else {
-                                        recorder.togglePauseResume();
-                                    }
 
-                                    setIsActive(!isActive);
-                                }}
-                            >
-                                {isActive ? "Pause" : "Start"}
-                            </Button>
-                            <Button
-                                px={4}
-                                py={3}
-                                backgroundColor={"#df3636"}
-                                borderRadius={8}
-                                borderWidth={0}
-                                ml={2}
-                                color={"white"}
-                                onClick={() => {
-                                    recorder.stopRecording();
-                                    //@ts-ignore
-                                    // handleFile(recorder.recordingBlob);
-                                    stopTimer();
-                                    setIsActive(false);
-                                }}
-                            >
-                                Stop
-                            </Button>
-                        </div>
-                    </label>
-                </div>
-                <b></b>
-            </div>
-        </div>
+
+        </Container>
     );
 };
 
-export default QuestionCreate;
+export default AccountCreate;

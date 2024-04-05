@@ -46,6 +46,13 @@ input::placeholder {
     }
 }
 
+input:focus {
+    outline-width: 0;
+    outline: none;
+
+}
+
+
 .PhoneInput{
     display: flex;
     input{
