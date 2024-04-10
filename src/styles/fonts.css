@@ -22,7 +22,15 @@
 
 @font-face {
     font-family: 'EB Garamond';
+    src: local('EB Garamond'), url('../assets/fonts/EBGaramond-Medium.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EB Garamond', serif;
     src: local('EB Garamond'), url('../assets/fonts/EBGaramond-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
+
