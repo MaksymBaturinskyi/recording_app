@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {Container} from "../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
@@ -6,9 +6,8 @@ import {theme} from "../styles/theme";
 import Play from "../assets/icons/play.svg";
 import Mic from "../assets/icons/mic.svg";
 import Arrow from "../assets/icons/arrow_down.svg";
-import {useWindowSize} from "../helpers/useWindowSize";
 import Footer from "../components/CombinedComponents/Footer";
-
+import {useAudioRecorder} from "react-audio-voice-recorder";
 
 const stepsListData = [
     "1. Record a question",
@@ -18,8 +17,33 @@ const stepsListData = [
 
 const QuestionCreate: React.FC = () => {
     const navigate = useNavigate();
-    const { width } = useWindowSize();
-    const isDesktop = width >= 600;
+    const [isRecording, setIsRecording] = useState<boolean>(false);
+    const [trackUrl, setTrackUrl] = useState<string>("");
+    const recorder = useAudioRecorder();
+
+    const handleRecording = () => {
+        if (!isRecording) {
+            recorder.startRecording();
+            setIsRecording(true);
+        } else {
+            recorder.stopRecording();
+            setIsRecording(false);
+            // navigate('/questioncreate');
+        }
+    };
+
+    useEffect(() => {
+        if (trackUrl) {
+            navigate('/questioncreate', { state: { trackUrl } });
+        }
+    }, [trackUrl, navigate]);
+
+    useEffect(() => {
+        if (recorder.recordingBlob) {
+            const url = URL.createObjectURL(recorder.recordingBlob);
+            setTrackUrl(url);
+        }
+    }, [recorder.recordingBlob]);
 
     return (
         <>
@@ -28,7 +52,7 @@ const QuestionCreate: React.FC = () => {
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                minHeight={isDesktop ? 'calc(100vh - 343px)' : '100vh'}
+                minHeight={'100vh'}
                 backgroundColor={theme.colors.colorBg}
             >
                 <Block
@@ -139,21 +163,19 @@ const QuestionCreate: React.FC = () => {
                             mt={4}
                         >
                             <Button
-                                width={"100%"}
-                                height={"59px"}
+                                width="100%"
+                                height="59px"
                                 px={4}
                                 py={3}
-                                backgroundColor={[theme.colors.colorSecondaryRed,theme.colors.colorSecondaryRed,theme.colors.colorPrimary]}
                                 borderRadius={14}
                                 borderWidth={0}
-                                color={"white"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                onClick={() => {
-                                    navigate('/questioncreate')
-                                }}
-                                boxShadow='4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)'
+                                color="white"
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                onClick={handleRecording}
+                                backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
+                                boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                             >
                                 <Text
                                     fontFamily={theme.fontFamily.inter}
@@ -161,15 +183,18 @@ const QuestionCreate: React.FC = () => {
                                     fontSize={20}
                                     marginRight={3}
                                 >
-                                    Record
+                                    {isRecording ? 'Save and Next' : 'Recording'}
                                 </Text>
-                                <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                                {isRecording
+                                    ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
+                                    : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                                }
                             </Button>
                         </Block>
                     </Block>
                 </Block>
             </Container>
-            {isDesktop && <Footer />}
+            <Footer />
         </>
     );
 };

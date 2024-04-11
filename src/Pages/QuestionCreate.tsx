@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
-import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import play from "../assets/images/play.png";
 
 const QuestionCreate: React.FC = () => {
@@ -11,7 +10,8 @@ const QuestionCreate: React.FC = () => {
     const [minute, setMinute] = useState<string>("00");
     const [isActive, setIsActive] = useState<boolean>(false);
     const [counter, setCounter] = useState<number>(0);
-    const [trackUrl, setTrackUrl] = useState<string>("");
+    const location = useLocation();
+    const trackUrl = location.state?.trackUrl;
     const [waitForSend, setWaitForSend] = useState<boolean>(false);
     const recorder = useAudioRecorder();
     const navigate = useNavigate()
@@ -51,12 +51,13 @@ const QuestionCreate: React.FC = () => {
     }
 
 
-    useEffect(() => {
-        if (recorder.recordingBlob) {
-            const url = URL.createObjectURL(recorder.recordingBlob);
-            setTrackUrl(url);
-        }
-    }, [recorder.recordingBlob]);
+    // useEffect(() => {
+    //     if (recorder.recordingBlob) {
+    //         const url = URL.createObjectURL(recorder.recordingBlob);
+    //         // setTrackUrl(url);
+    //         console.log('track url', trackUrl)
+    //     }
+    // }, [recorder.recordingBlob]);
 
     useEffect(() => {
         if (trackUrl && waitForSend) {
@@ -66,7 +67,7 @@ const QuestionCreate: React.FC = () => {
     }, [trackUrl, waitForSend]);
 
     const handleRecordingSwitch = () => {
-        setTrackUrl("")
+        // setTrackUrl("")
         if (!recorder.isRecording) {
             recorder.startRecording();
         } else {
@@ -87,7 +88,7 @@ const QuestionCreate: React.FC = () => {
 
     const handleRecordingStart = () => {
         handleRecordingSwitch()
-        setTrackUrl("")
+        // setTrackUrl("")
         setWaitForSend(false)
     }
 
@@ -179,9 +180,7 @@ const QuestionCreate: React.FC = () => {
                             </Text>
                         </Button>
                     }
-
                 </Button>
-
 
             </Block>
             <Text
@@ -224,41 +223,25 @@ const QuestionCreate: React.FC = () => {
                 </Button>
             </Block>
 
-            {recorder.mediaRecorder && (
-                <LiveAudioVisualizer
-                    mediaRecorder={recorder.mediaRecorder}
-                    width={200}
-                    height={75}
-                />
-            )}
-
-            {
-                trackUrl &&
-                <Block
-                    width={"100%"}
-                    justifyContent={"center"}
-                    mt={'auto'}
-                    mb={5}
+            <Block
+                width={"100%"}
+                justifyContent={"center"}
+                mt={'20px'}
+            >
+                <Button
+                    width={"50px"}
+                    height={"50px"}
+                    borderRadius={"50px"}
+                    backgroundColor={recorder.isRecording && !recorder.isPaused ? "darkRed" : "white"}
+                    boxShadow={"0 0 10px grey"}
+                    onClick={() => {
+                        const audioToPlay = new Audio(trackUrl);
+                        audioToPlay.play();
+                    }}
                 >
-                    <Button
-                        width={"50px"}
-                        height={"50px"}
-                        borderRadius={"50px"}
-                        backgroundColor={recorder.isRecording && !recorder.isPaused ? "darkRed" : "white"}
-                        // position={"absolute"}
-                        // top={recorder.isRecording && !recorder.isPaused ? "10px" : "calc(100% - 60px)"}
-                        // left={"50%"}
-                        // transform={"translateX(-50%)"}
-                        boxShadow={"0 0 10px grey"}
-                        onClick={() => {
-                            const audioToPlay = new Audio(trackUrl);
-                            audioToPlay.play();
-                        }}
-                    >
-                        <img src={play} alt="play" style={{width: "20px", height: "20px"}}/>
-                    </Button>
-                </Block>
-            }
+                    <img src={play} alt="play" style={{width: "20px", height: "20px"}}/>
+                </Button>
+            </Block>
 
         </Container>
 
