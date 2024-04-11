@@ -25,14 +25,14 @@ const InteractiveText = styled(Text)`
 const Footer = () => {
     return (
         <Block
-            display={['none','block','block']}
+            display={['none','flex','flex']}
+            justifyContent={['','space-between', 'space-between']}
+            alignItems={['','center','center']}
             position={'fixed'}
             bottom={'0px'}
             width={'100%'}
-            height={['270px','343px','343px']}
+            height={['200px','250px','250px']}
             backgroundColor={theme.colors.colorPrimary}
-            paddingTop={20}
-            paddingBottom={20}
         >
             <Container
                 maxWidth={'926px'}
@@ -97,9 +97,10 @@ const Footer = () => {
 
                 <Block
                     flexDirection={['row','column','column']}
+                    alignItems={'flex-end'}
                     mt={[30,0,0]}
                     mb={[20,0,0]}
-                    width={['100%','auto', 'auto']}
+                    width={'100%'}
                     justifyContent={['space-between', 'space-between', '']}
                 >
                     {
