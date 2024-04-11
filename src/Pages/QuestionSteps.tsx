@@ -5,9 +5,9 @@ import {useNavigate} from "react-router-dom";
 import {theme} from "../styles/theme";
 import Play from "../assets/icons/play.svg";
 import Mic from "../assets/icons/mic.svg";
-import Arrow from "../assets/icons/arrow_down.svg";
 import Footer from "../components/CombinedComponents/Footer";
 import {useAudioRecorder} from "react-audio-voice-recorder";
+import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
 
 const stepsListData = [
     "1. Record a question",
@@ -53,23 +53,8 @@ const QuestionCreate: React.FC = () => {
                 alignItems={"center"}
                 width={"100%"}
                 minHeight={'100vh'}
-                backgroundColor={theme.colors.colorBg}
             >
-                <Block
-                    width={'100%'}
-                    height={'52px'}
-                    marginBottom={[0,0,32]}
-                    borderRadius={20}
-                    paddingLeft={[0,0,30.5]}
-                    paddingTop={'4px'}
-                    alignItems={'center'}
-                    backgroundColor={['transparent','transparent', theme.colors.colorSecBg]}
-                >
-                    <img src={Arrow} alt="play" style={{
-                        width: "28px",
-                        height: "26px"
-                    }}/>
-                </Block>
+                <HeaderArrowComponent />
 
                 <Block
                     justifyContent={'center'}
@@ -157,40 +142,33 @@ const QuestionCreate: React.FC = () => {
                             Ask a question you want answered
                         </Text>
 
-                        <Block
-                            justifyContent={"center"}
-                            width={"100%"}
-                            mt={4}
+                        <Button
+                            width="100%"
+                            height="59px"
+                            mt={'20px'}
+                            borderRadius={14}
+                            borderWidth={0}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            onClick={handleRecording}
+                            backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
+                            boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                         >
-                            <Button
-                                width="100%"
-                                height="59px"
-                                px={4}
-                                py={3}
-                                borderRadius={14}
-                                borderWidth={0}
-                                color="white"
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                onClick={handleRecording}
-                                backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
-                                boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
+                            <Text
+                                fontFamily={theme.fontFamily.inter}
+                                fontWeight={700}
+                                fontSize={20}
+                                marginRight={3}
+                                color={theme.colors.colorWhite}
                             >
-                                <Text
-                                    fontFamily={theme.fontFamily.inter}
-                                    fontWeight={700}
-                                    fontSize={20}
-                                    marginRight={3}
-                                >
-                                    {isRecording ? 'Save and Next' : 'Recording'}
-                                </Text>
-                                {isRecording
-                                    ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
-                                    : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
-                                }
-                            </Button>
-                        </Block>
+                                {isRecording ? 'Save and Next' : 'Recording'}
+                            </Text>
+                            {isRecording
+                                ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
+                                : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                            }
+                        </Button>
                     </Block>
                 </Block>
             </Container>

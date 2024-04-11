@@ -13,6 +13,7 @@ export const theme = {
         colorSecondaryRed: '#CE4528',
         colorWhite: '#ffffff',
         colorTextGray: '#777777',
+        colorBgGray: '#515151',
         colorTextBlack: '#1D1D1D',
         colorBg: '#F7F1EC',
         colorSecBg: '#EFE5DC'

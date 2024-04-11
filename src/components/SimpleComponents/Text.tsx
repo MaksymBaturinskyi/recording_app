@@ -19,7 +19,7 @@ interface TextInterface
         ColorProps,
         TypographyProps,
         TextStyleProps {
-    children: string | number;
+    children: React.ReactNode;
     textDecoration?: string;
     textIndent?: string;
 
