@@ -14,6 +14,7 @@ export const theme = {
         colorWhite: '#ffffff',
         colorTextGray: '#777777',
         colorBgGray: '#515151',
+        colorBorderGray: '#BEBEBE',
         colorTextBlack: '#1D1D1D',
         colorBg: '#F7F1EC',
         colorSecBg: '#EFE5DC'
