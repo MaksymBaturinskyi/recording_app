@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {Container} from "../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
@@ -6,8 +6,8 @@ import {theme} from "../styles/theme";
 import Play from "../assets/icons/play.svg";
 import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
-import {useAudioRecorder} from "react-audio-voice-recorder";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
+import {useRecording} from "../helpers/useRecording";
 
 const stepsListData = [
     "1. Record a question",
@@ -17,18 +17,13 @@ const stepsListData = [
 
 const QuestionCreate: React.FC = () => {
     const navigate = useNavigate();
-    const [isRecording, setIsRecording] = useState<boolean>(false);
-    const [trackUrl, setTrackUrl] = useState<string>("");
-    const recorder = useAudioRecorder();
+    const { isRecording, trackUrl, startRecording, stopRecording } = useRecording({ initialTrackUrl: '' });
 
     const handleRecording = () => {
         if (!isRecording) {
-            recorder.startRecording();
-            setIsRecording(true);
+            startRecording()
         } else {
-            recorder.stopRecording();
-            setIsRecording(false);
-            // navigate('/questioncreate');
+            stopRecording()
         }
     };
 
@@ -37,13 +32,6 @@ const QuestionCreate: React.FC = () => {
             navigate('/questioncreate', { state: { trackUrl } });
         }
     }, [trackUrl, navigate]);
-
-    useEffect(() => {
-        if (recorder.recordingBlob) {
-            const url = URL.createObjectURL(recorder.recordingBlob);
-            setTrackUrl(url);
-        }
-    }, [recorder.recordingBlob]);
 
     return (
         <>

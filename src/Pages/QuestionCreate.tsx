@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
-import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
 import {useLocation, useNavigate} from "react-router-dom";
 import play from "../assets/icons/play_white.svg";
@@ -9,32 +8,28 @@ import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowCo
 import {theme} from "../styles/theme";
 import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
+import {useRecording} from "../helpers/useRecording";
 
 const QuestionCreate: React.FC = () => {
-    const [isRecording, setIsRecording] = useState<boolean>(false);
-    const [newTrackUrl, setNewTrackUrl] = useState<string>("");
     const location = useLocation();
-    const trackUrl = location.state?.trackUrl;
-    const recorder = useAudioRecorder();
+    const initialTrackUrl = location.state?.trackUrl;
+    const {
+        isRecording,
+        trackUrl: newTrackUrl,
+        startRecording,
+        stopRecording,
+        clearRecording
+    } = useRecording({ initialTrackUrl });
     const navigate = useNavigate();
 
-    const handleRecording = () => {
-        if (!isRecording) {
-            recorder.startRecording();
-            setIsRecording(true);
-        } else {
-            setNewTrackUrl("");
-            recorder.stopRecording();
-            setIsRecording(false);
-        }
+    const handleReRecording = () => {
+        clearRecording();
+        startRecording();
     };
 
-    useEffect(() => {
-        if (recorder.recordingBlob) {
-            const newUrl = URL.createObjectURL(recorder.recordingBlob);
-            setNewTrackUrl(newUrl);
-        }
-    }, [recorder.recordingBlob]);
+    const handleSaveAndNext = () => {
+        stopRecording();
+    };
 
     return (
         <>
@@ -81,12 +76,12 @@ const QuestionCreate: React.FC = () => {
                             alignItems={'center'}
                             width={"100%"}
                             height={"59px"}
-                            mt={['30px','50px','50px']}
+                            mt={['30px','48px','48px']}
                             borderRadius={14}
                             backgroundColor={theme.colors.colorBgGray}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                             onClick={() => {
-                                const audioSrc = newTrackUrl || trackUrl;
+                                const audioSrc = newTrackUrl;
                                 if (audioSrc) {
                                     const audioToPlay = new Audio(audioSrc);
                                     audioToPlay.play();
@@ -125,7 +120,7 @@ const QuestionCreate: React.FC = () => {
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            onClick={handleRecording}
+                            onClick={isRecording ? handleSaveAndNext : handleReRecording}
                             backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                         >
