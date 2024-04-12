@@ -4,6 +4,7 @@ import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../components/SimpleComponents/Container";
 import {useLocation, useNavigate} from "react-router-dom";
 import play from "../assets/icons/play_white.svg";
+import back from "../assets/icons/arrow-back.svg";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
 import {theme} from "../styles/theme";
 import Mic from "../assets/icons/mic.svg";
@@ -47,14 +48,6 @@ const QuestionCreate: React.FC = () => {
                 <HeaderArrowComponent />
 
                 <Block
-                    display={['none','block','block']}
-                    mt={3}
-                    width={"100%"}
-                >
-                    <Button onClick={() => navigate(-1)}>Back</Button>
-                </Block>
-
-                <Block
                     justifyContent={'space-between'}
                     flexDirection={['column', 'row', 'row']}
                     width={"100%"}
@@ -64,6 +57,14 @@ const QuestionCreate: React.FC = () => {
                     paddingBottom={[0,0,105]}
                 >
                     <Block mr={['0px','60px','60px']} width={'100%'} flexDirection={'column'}>
+                        <Block
+                            display={['none','block','block']}
+                            width={"100%"}
+                        >
+                            <Button onClick={() => navigate(-1)}>
+                                <img src={back} alt="back" style={{width: "20px", height: "20px"}}/>
+                            </Button>
+                        </Block>
                         <Text
                             fontFamily={theme.fontFamily.ebgaramond}
                             fontWeight={700}
@@ -80,7 +81,7 @@ const QuestionCreate: React.FC = () => {
                             alignItems={'center'}
                             width={"100%"}
                             height={"59px"}
-                            mt={['30px','60px','60px']}
+                            mt={['30px','50px','50px']}
                             borderRadius={14}
                             backgroundColor={theme.colors.colorBgGray}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"

@@ -58,6 +58,14 @@ input:focus {
     input{
         font-size: 18px;
         padding: 10px;
+        padding-top: 18px;
         flex: 1;
     }
+}
+
+.PhoneInputCountry {
+    margin-top: 10px;
+    margin-left: 5px;
+    width: 50px;
+    height: 40px;
 }

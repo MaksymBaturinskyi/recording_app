@@ -28,8 +28,8 @@ const Footer = () => {
             display={['none','flex','flex']}
             justifyContent={['','space-between', 'space-between']}
             alignItems={['','center','center']}
-            position={'fixed'}
-            bottom={'0px'}
+            // position={'relative'}
+            // bottom={'0px'}
             width={'100%'}
             height={['200px','250px','250px']}
             backgroundColor={theme.colors.colorPrimary}

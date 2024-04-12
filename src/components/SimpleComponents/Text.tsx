@@ -10,7 +10,7 @@ import {
     ColorProps,
     TypographyProps,
     textStyle,
-    TextStyleProps,
+    TextStyleProps, PositionProps, position,
 } from 'styled-system';
 
 interface TextInterface
@@ -18,6 +18,7 @@ interface TextInterface
         LayoutProps,
         ColorProps,
         TypographyProps,
+        PositionProps,
         TextStyleProps {
     children: React.ReactNode;
     textDecoration?: string;
@@ -29,6 +30,7 @@ const StyledText = styled.p<TextInterface>`
     ${space}
     ${layout}
     ${color}
+    ${position}
     ${typography}
     ${textStyle}
     ${({textDecoration}) => textDecoration && `text-decoration: ${textDecoration}`}
