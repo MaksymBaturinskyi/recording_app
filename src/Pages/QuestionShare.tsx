@@ -87,7 +87,7 @@ const QuestionShare: React.FC = () => {
                                     fontWeight={shareType === "sms" ? 700 : 400}
                                     fontSize={18}
                                     color={shareType === "sms" ? theme.colors.colorPrimary : theme.colors.colorTextGray}
-                                    textDecoration={shareType === "sms" ? "underline" : "none"}
+                                    borderBottom={shareType === "sms" ? `1px solid ${theme.colors.colorPrimary}` : "none"}
                                 >
                                     SMS
                                 </Text>
@@ -101,7 +101,7 @@ const QuestionShare: React.FC = () => {
                                     fontWeight={shareType !== "sms" ? 700 : 400}
                                     fontSize={18}
                                     color={shareType !== "sms" ? theme.colors.colorPrimary : theme.colors.colorTextGray}
-                                    textDecoration={shareType !== "sms" ? "underline" : "none"}
+                                    borderBottom={shareType !== "sms" ? `1px solid ${theme.colors.colorPrimary}` : "none"}
                                 >
                                     Email
                                 </Text>

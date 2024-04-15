@@ -4,19 +4,21 @@ import {
     space,
     layout,
     color,
+    border,
     typography,
     SpaceProps,
     LayoutProps,
     ColorProps,
     TypographyProps,
     textStyle,
-    TextStyleProps, PositionProps, position,
+    TextStyleProps, PositionProps, position, BorderProps,
 } from 'styled-system';
 
 interface TextInterface
     extends SpaceProps,
         LayoutProps,
         ColorProps,
+        BorderProps,
         TypographyProps,
         PositionProps,
         TextStyleProps {
@@ -29,6 +31,7 @@ interface TextInterface
 const StyledText = styled.p<TextInterface>`
     ${space}
     ${layout}
+    ${border}
     ${color}
     ${position}
     ${typography}
