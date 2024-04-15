@@ -8,6 +8,7 @@ import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
 import {useRecording} from "../helpers/useRecording";
+import sampleMp3 from '../assets/sounds/sample.mp3';
 
 const stepsListData = [
     "1. Record a question",
@@ -25,6 +26,11 @@ const QuestionCreate: React.FC = () => {
         } else {
             stopRecording()
         }
+    };
+
+    const handlePlaySample = () => {
+        const audio = new Audio(sampleMp3);
+        audio.play().catch(error => console.error("Error playing the file:", error));
     };
 
     useEffect(() => {
@@ -102,7 +108,9 @@ const QuestionCreate: React.FC = () => {
                         </Block>
                     </Block>
                     <Block flexDirection={'column'}>
-                        <Block
+                        <Button
+                            display={'flex'}
+                            onClick={handlePlaySample}
                             mt={40}
                             width={'100%'}
                             flexDirection={'row'}
@@ -112,6 +120,7 @@ const QuestionCreate: React.FC = () => {
                             <img src={Play} alt="play" style={{width: "50px", height: "50px", marginRight: 16.3}}/>
 
                             <Text
+                                textAlign={'start'}
                                 fontFamily={theme.fontFamily.inter}
                                 fontWeight={400}
                                 fontSize={18}
@@ -119,7 +128,7 @@ const QuestionCreate: React.FC = () => {
                             >
                                 Listen to a sample question
                             </Text>
-                        </Block>
+                        </Button>
                         <Text
                             marginTop={40}
                             fontWeight={700}
