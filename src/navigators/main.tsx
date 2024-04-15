@@ -5,7 +5,7 @@ import QuestionShare from "../Pages/QuestionShare";
 import QuestionCreate from "../Pages/QuestionCreate";
 import QuestionSteps from "../Pages/QuestionSteps";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: "/",
         children: [

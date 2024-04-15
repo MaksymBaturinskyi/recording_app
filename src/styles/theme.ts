@@ -23,4 +23,9 @@ export const theme = {
         inter: 'Inter, sans-serif',
         ebgaramond: 'EB Garamond, serif',
     },
+    buttons: {
+        '&:hover' : {
+            opacity: 0.4
+        }
+    }
 };

@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {Container} from "../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
 import {theme} from "../styles/theme";
 import Play from "../assets/icons/play.svg";
+import Stop from "../assets/icons/stop.svg";
 import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
@@ -18,6 +19,7 @@ const stepsListData = [
 
 const QuestionCreate: React.FC = () => {
     const navigate = useNavigate();
+    const [sampleActive, setSampleActive] = useState<boolean>(false);
     const { isRecording, trackUrl, startRecording, stopRecording } = useRecording({ initialTrackUrl: '' });
 
     const handleRecording = () => {
@@ -29,8 +31,18 @@ const QuestionCreate: React.FC = () => {
     };
 
     const handlePlaySample = () => {
-        const audio = new Audio(sampleMp3);
-        audio.play().catch(error => console.error("Error playing the file:", error));
+        if (sampleActive) {
+            setSampleActive(false);
+        } else {
+            const audio = new Audio(sampleMp3);
+            setSampleActive(true);
+
+            audio.play().catch(error => console.error("Error playing the file:", error));
+
+            audio.addEventListener('ended', () => {
+                setSampleActive(false);
+            }, { once: true });
+        }
     };
 
     useEffect(() => {
@@ -117,7 +129,17 @@ const QuestionCreate: React.FC = () => {
                             alignItems={'center'}
                             height={'52px'}
                         >
-                            <img src={Play} alt="play" style={{width: "50px", height: "50px", marginRight: 16.3}}/>
+                            <Block
+                                width={'40px'}
+                                height={'40px'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                borderRadius={'50px'}
+                                border={`1px solid ${theme.colors.colorTextGray}`}
+                                marginRight={'16px'}
+                            >
+                                <img src={sampleActive ? Stop : Play} alt="play"/>
+                            </Block>
 
                             <Text
                                 textAlign={'start'}
@@ -159,7 +181,7 @@ const QuestionCreate: React.FC = () => {
                                 marginRight={3}
                                 color={theme.colors.colorWhite}
                             >
-                                {isRecording ? 'Save and Next' : 'Recording'}
+                                {isRecording ? 'Save and Next' : 'Record'}
                             </Text>
                             {isRecording
                                 ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
