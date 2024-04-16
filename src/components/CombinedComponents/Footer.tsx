@@ -70,8 +70,7 @@ const Footer = () => {
                             paddingTop={14}
                             paddingBottom={19}
                             width={['150px','237px','237px']}
-                            borderBottomColor={theme.colors.colorWhite}
-                            borderBottomWidth={'1px'}
+                            borderBottom={`1px solid ${theme.colors.colorWhite}`}
                             marginRight={60}
                         />
                         <Button

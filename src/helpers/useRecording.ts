@@ -11,6 +11,7 @@ export const useRecording = ({ initialTrackUrl }: UseRecordingProps) => {
     const recorder = useAudioRecorder();
     const [permissionDenied, setPermissionDenied] = useState(false);
     const [recordingTime, setRecordingTime] = useState(0);
+    const [recordingDuration, setRecordingDuration] = useState<number>(0);
     const intervalId = useRef<NodeJS.Timeout | null>(null);
 
     const checkMicrophonePermissions = async () => {
@@ -49,6 +50,7 @@ export const useRecording = ({ initialTrackUrl }: UseRecordingProps) => {
             recorder.stopRecording();
             setIsRecording(false);
             stopTimer();
+            setRecordingDuration(recordingTime);
         }
     };
 
@@ -72,6 +74,7 @@ export const useRecording = ({ initialTrackUrl }: UseRecordingProps) => {
         trackUrl,
         recordingTime,
         permissionDenied,
+        recordingDuration,
         startRecording,
         stopRecording,
         clearRecording,

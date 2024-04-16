@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {Container} from "../components/SimpleComponents/Container";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -9,18 +9,26 @@ import {theme} from "../styles/theme";
 import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
 import {useRecording} from "../helpers/useRecording";
+import sampleMp3 from "../assets/sounds/sample.mp3";
+import Stop from "../assets/icons/Stop";
+import Play from "../assets/icons/play.svg";
 
 const QuestionCreate: React.FC = () => {
+    const [sampleActive, setSampleActive] = useState<boolean>(false);
     const location = useLocation();
+    const { recordingDuration: duration } = location.state || {};
+    const [currentTime, setCurrentTime] = useState('00:00');
+    const navigate = useNavigate();
     const initialTrackUrl = location.state?.trackUrl;
+
     const {
         isRecording,
         trackUrl: newTrackUrl,
         startRecording,
         stopRecording,
-        clearRecording
+        clearRecording,
+        recordingDuration
     } = useRecording({ initialTrackUrl });
-    const navigate = useNavigate();
 
     const handleReRecording = () => {
         clearRecording();
@@ -30,6 +38,51 @@ const QuestionCreate: React.FC = () => {
     const handleSaveAndNext = () => {
         stopRecording();
     };
+
+    const handlePlaySample = () => {
+        if (sampleActive) {
+            setSampleActive(false);
+        } else {
+            const audioSrc = newTrackUrl;
+            if (audioSrc) {
+                const audio = new Audio();
+                audio.src = newTrackUrl;
+
+                setCurrentTime(formatTime(0));
+
+                const updateTime = () => {
+                    setCurrentTime(formatTime(audio.currentTime));
+                };
+
+                audio.addEventListener('timeupdate', updateTime);
+                audio.addEventListener('ended', () => {
+                    setSampleActive(false);
+                    audio.removeEventListener('timeupdate', updateTime);
+                });
+
+                audio.play().catch(error => console.error("Error playing the file:", error));
+                setSampleActive(true);
+            }
+        }
+    };
+
+
+    useEffect(() => {
+        if (!initialTrackUrl) {
+            setSampleActive(false);
+        }
+    }, [initialTrackUrl]);
+
+    const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+        const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+        return `${minutes}:${seconds}`;
+    };
+
+    console.log('duration', duration);
+    console.log('recDuration', recordingDuration);
+
+    const formattedDuration = formatTime(duration < recordingDuration ? recordingDuration : duration);
 
     return (
         <>
@@ -80,24 +133,23 @@ const QuestionCreate: React.FC = () => {
                             borderRadius={14}
                             backgroundColor={theme.colors.colorBgGray}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
-                            onClick={() => {
-                                const audioSrc = newTrackUrl;
-                                if (audioSrc) {
-                                    const audioToPlay = new Audio(audioSrc);
-                                    audioToPlay.play();
-                                }
-                            }}
+                            onClick={handlePlaySample}
                         >
                             <Text
                                 color={theme.colors.colorWhite}
                                 fontFamily={theme.fontFamily.inter}
                                 fontWeight={700}
                                 fontSize={20}
-                                marginRight={3}
+                                marginRight={'20px'}
                             >
-                                Listen to your question
+                                {sampleActive ? `${currentTime} / ${formattedDuration}` :
+                                    'Listen to your question'
+                                }
                             </Text>
-                            <img src={play} alt="play" style={{width: "20px", height: "20px", color: 'white'}}/>
+                            {sampleActive
+                                ? <Stop width={'40px'} height={'40px'} color={theme.colors.colorWhite}/>
+                                : <img src={play} alt="play" style={{width: '20px', height: '20px', color: `${theme.colors.colorWhite}`}}/>
+                            }
                         </Button>
                     </Block>
                     <Block width={'100%'} flexDirection={'column'}>

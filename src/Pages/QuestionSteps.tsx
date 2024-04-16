@@ -26,7 +26,8 @@ const QuestionCreate: React.FC = () => {
         recordingTime,
         permissionDenied,
         startRecording,
-        stopRecording
+        stopRecording,
+        recordingDuration
     } = useRecording({ initialTrackUrl: '' });
     const [showModal, setShowModal] = useState(false);
     const [hasFinishedRecording, setHasFinishedRecording] = useState<boolean>(false);
@@ -36,7 +37,6 @@ const QuestionCreate: React.FC = () => {
     }, [permissionDenied]);
 
     const handleRecording = () => {
-        console.log('permissions', permissionDenied)
         if (permissionDenied) {
             setShowModal(true);
         } else {
@@ -72,7 +72,7 @@ const QuestionCreate: React.FC = () => {
 
     const handleSaveAndNext = () => {
         if (hasFinishedRecording && trackUrl) {
-            navigate('/questioncreate', { state: { trackUrl } });
+            navigate('/questioncreate', { state: { trackUrl, recordingDuration } });
         }
     };
 
