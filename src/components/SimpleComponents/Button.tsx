@@ -38,6 +38,15 @@ const StyledButton = styled.button<ButtonInterface>`
     ${shadow}
     ${justifyContent}
 	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover {
+		opacity: 0.8;
+	}
+
+	&:active {
+		opacity: 0.6;
+	}
 `;
 
 export const Button: FC<ButtonInterface> = ({ children, ...rest }) => (

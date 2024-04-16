@@ -2,7 +2,6 @@ export const theme = {
     fontSizes: [12, 14, 16, 18, 20 ,22, 24, 28, 30, 32, 50, 64, 89, 128],
     space: [4, 8, 12, 16, 24, 32, 68, 88, 128, 256],
     radii: [8, 16, 20, 24, 32, 48, 64, 96, 128],
-    // breakpoints: ['300px', '700px', '900px'],
     lineHeights: {
         solid: 1,
         title: 1.25,
@@ -22,10 +21,5 @@ export const theme = {
     fontFamily: {
         inter: 'Inter, sans-serif',
         ebgaramond: 'EB Garamond, serif',
-    },
-    buttons: {
-        '&:hover' : {
-            opacity: 0.4
-        }
     }
 };

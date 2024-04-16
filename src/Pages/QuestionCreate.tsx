@@ -16,6 +16,7 @@ import Play from "../assets/icons/play.svg";
 const QuestionCreate: React.FC = () => {
     const [sampleActive, setSampleActive] = useState<boolean>(false);
     const [isNewRecording, setIsNewRecording] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const location = useLocation();
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -31,13 +32,18 @@ const QuestionCreate: React.FC = () => {
         startRecording,
         stopRecording,
         clearRecording,
-        recordingDuration
+        recordingDuration,
+        permissionDenied
     } = useRecording({ initialTrackUrl });
 
     const handleReRecording = () => {
-        clearRecording();
-        startRecording();
-        setIsNewRecording(true);
+        if (permissionDenied) {
+            setShowModal(true)
+        } else {
+            clearRecording();
+            startRecording();
+            setIsNewRecording(true);
+        }
     };
 
     const handleSaveAndNext = () => {
@@ -80,6 +86,10 @@ const QuestionCreate: React.FC = () => {
             }
         }
     };
+
+    useEffect(() => {
+        setShowModal(permissionDenied);
+    }, [permissionDenied]);
 
     useEffect(() => {
         return () => {
@@ -177,7 +187,7 @@ const QuestionCreate: React.FC = () => {
                             }
                         </Button>
                     </Block>
-                    <Block width={'100%'} flexDirection={'column'}>
+                    <Block width={'100%'} flexDirection={'column'} position={'relative'}>
                         <Text
                             mt={['30px','0px','0px']}
                             fontFamily={theme.fontFamily.ebgaramond}
@@ -215,6 +225,20 @@ const QuestionCreate: React.FC = () => {
                                 : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
                             }
                         </Button>
+
+                        {showModal && (
+                            <Text
+                                position={'absolute'}
+                                top={'180px'}
+                                mt={'10px'}
+                                fontFamily={theme.fontFamily.inter}
+                                fontWeight={400}
+                                fontSize={14}
+                                color={theme.colors.colorSecondaryRed}
+                            >
+                                Please go to settings and allow mic permissions.
+                            </Text>
+                        )}
 
                         <Button
                             display={'flex'}
