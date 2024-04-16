@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Block, Button, Text} from "../components/SimpleComponents";
 import {Container} from "../components/SimpleComponents/Container";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -15,7 +15,11 @@ import Play from "../assets/icons/play.svg";
 
 const QuestionCreate: React.FC = () => {
     const [sampleActive, setSampleActive] = useState<boolean>(false);
+    const [isNewRecording, setIsNewRecording] = useState(false);
     const location = useLocation();
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+
     const { recordingDuration: duration } = location.state || {};
     const [currentTime, setCurrentTime] = useState('00:00');
     const navigate = useNavigate();
@@ -33,39 +37,87 @@ const QuestionCreate: React.FC = () => {
     const handleReRecording = () => {
         clearRecording();
         startRecording();
+        setIsNewRecording(true);
     };
 
     const handleSaveAndNext = () => {
         stopRecording();
     };
 
+    // const handlePlaySample = () => {
+    //     if (sampleActive) {
+    //         setSampleActive(false);
+    //     } else {
+    //         const audioSrc = isNewRecording ? newTrackUrl : initialTrackUrl;
+    //         if (audioSrc) {
+    //             const audio = new Audio();
+    //             audio.src = newTrackUrl;
+    //
+    //             setCurrentTime(formatTime(0));
+    //
+    //             const updateTime = () => {
+    //                 setCurrentTime(formatTime(audio.currentTime));
+    //             };
+    //
+    //             audio.addEventListener('timeupdate', updateTime);
+    //             audio.addEventListener('ended', () => {
+    //                 setSampleActive(false);
+    //                 audio.removeEventListener('timeupdate', updateTime);
+    //             });
+    //
+    //             audio.play().catch(error => console.error("Error playing the file:", error));
+    //             setSampleActive(true);
+    //         }
+    //     }
+    // };
+
+    const updateTime = useCallback(() => {
+        if (audioRef.current) {
+            setCurrentTime(formatTime(audioRef.current.currentTime));
+        }
+    }, []);
+
+    const handleEnd = useCallback(() => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+        }
+        setSampleActive(false);
+    }, []);
     const handlePlaySample = () => {
         if (sampleActive) {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
             setSampleActive(false);
         } else {
-            const audioSrc = newTrackUrl;
+            const audioSrc = isNewRecording ? newTrackUrl : initialTrackUrl;
             if (audioSrc) {
-                const audio = new Audio();
-                audio.src = newTrackUrl;
+                if (!audioRef.current) {
+                    audioRef.current = new Audio(audioSrc);
+                    audioRef.current.addEventListener('timeupdate', updateTime);
+                    audioRef.current.addEventListener('ended', handleEnd);
+                } else {
+                    audioRef.current.src = audioSrc; // Ensure the correct source is set
+                    audioRef.current.currentTime = 0; // Reset time to 0
+                }
 
-                setCurrentTime(formatTime(0));
-
-                const updateTime = () => {
-                    setCurrentTime(formatTime(audio.currentTime));
-                };
-
-                audio.addEventListener('timeupdate', updateTime);
-                audio.addEventListener('ended', () => {
-                    setSampleActive(false);
-                    audio.removeEventListener('timeupdate', updateTime);
-                });
-
-                audio.play().catch(error => console.error("Error playing the file:", error));
+                audioRef.current.play().catch(error => console.error("Error playing the file:", error));
                 setSampleActive(true);
             }
         }
     };
 
+    useEffect(() => {
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.removeEventListener('timeupdate', updateTime);
+                audioRef.current.removeEventListener('ended', handleEnd);
+                audioRef.current = null;
+            }
+        };
+    }, [updateTime, handleEnd]);
 
     useEffect(() => {
         if (!initialTrackUrl) {
@@ -82,7 +134,7 @@ const QuestionCreate: React.FC = () => {
     console.log('duration', duration);
     console.log('recDuration', recordingDuration);
 
-    const formattedDuration = formatTime(duration < recordingDuration ? recordingDuration : duration);
+    const formattedDuration = formatTime(isNewRecording ? recordingDuration : duration);
 
     return (
         <>
