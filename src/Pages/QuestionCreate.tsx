@@ -44,33 +44,6 @@ const QuestionCreate: React.FC = () => {
         stopRecording();
     };
 
-    // const handlePlaySample = () => {
-    //     if (sampleActive) {
-    //         setSampleActive(false);
-    //     } else {
-    //         const audioSrc = isNewRecording ? newTrackUrl : initialTrackUrl;
-    //         if (audioSrc) {
-    //             const audio = new Audio();
-    //             audio.src = newTrackUrl;
-    //
-    //             setCurrentTime(formatTime(0));
-    //
-    //             const updateTime = () => {
-    //                 setCurrentTime(formatTime(audio.currentTime));
-    //             };
-    //
-    //             audio.addEventListener('timeupdate', updateTime);
-    //             audio.addEventListener('ended', () => {
-    //                 setSampleActive(false);
-    //                 audio.removeEventListener('timeupdate', updateTime);
-    //             });
-    //
-    //             audio.play().catch(error => console.error("Error playing the file:", error));
-    //             setSampleActive(true);
-    //         }
-    //     }
-    // };
-
     const updateTime = useCallback(() => {
         if (audioRef.current) {
             setCurrentTime(formatTime(audioRef.current.currentTime));
@@ -98,8 +71,8 @@ const QuestionCreate: React.FC = () => {
                     audioRef.current.addEventListener('timeupdate', updateTime);
                     audioRef.current.addEventListener('ended', handleEnd);
                 } else {
-                    audioRef.current.src = audioSrc; // Ensure the correct source is set
-                    audioRef.current.currentTime = 0; // Reset time to 0
+                    audioRef.current.src = audioSrc;
+                    audioRef.current.currentTime = 0;
                 }
 
                 audioRef.current.play().catch(error => console.error("Error playing the file:", error));
