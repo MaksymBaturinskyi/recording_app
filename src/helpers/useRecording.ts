@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { useAudioRecorder } from "react-audio-voice-recorder";
 
 interface UseRecordingProps {
@@ -9,15 +9,47 @@ export const useRecording = ({ initialTrackUrl }: UseRecordingProps) => {
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [trackUrl, setTrackUrl] = useState<string>(initialTrackUrl || "");
     const recorder = useAudioRecorder();
+    const [permissionDenied, setPermissionDenied] = useState(false);
+    const [recordingTime, setRecordingTime] = useState(0);
+    const intervalId = useRef<NodeJS.Timeout | null>(null);
 
-    const startRecording = () => {
-        recorder.startRecording();
-        setIsRecording(true);
+    const checkMicrophonePermissions = async () => {
+        try {
+            await navigator.mediaDevices.getUserMedia({ audio: true });
+            return false;
+        } catch (error) {
+            console.log('error permissions', error);
+            return true;
+        }
+    };
+
+    const startRecording = async () => {
+        const denied = await checkMicrophonePermissions();
+        if (!denied) {
+            recorder.startRecording();
+            setIsRecording(true);
+            startTimer();
+        } else {
+            setPermissionDenied(true);
+        }
+    };
+    const startTimer = () => {
+        intervalId.current = setInterval(() => {
+            setRecordingTime((prevTime) => prevTime + 1);
+        }, 1000);
+    };
+
+    const stopTimer = () => {
+        if (intervalId.current) clearInterval(intervalId.current);
+        setRecordingTime(0);
     };
 
     const stopRecording = () => {
-        recorder.stopRecording();
-        setIsRecording(false);
+        if (isRecording) {
+            recorder.stopRecording();
+            setIsRecording(false);
+            stopTimer();
+        }
     };
 
     const clearRecording = () => {
@@ -38,6 +70,8 @@ export const useRecording = ({ initialTrackUrl }: UseRecordingProps) => {
     return {
         isRecording,
         trackUrl,
+        recordingTime,
+        permissionDenied,
         startRecording,
         stopRecording,
         clearRecording,

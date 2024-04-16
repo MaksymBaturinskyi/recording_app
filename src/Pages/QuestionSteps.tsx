@@ -4,7 +4,7 @@ import {Container} from "../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
 import {theme} from "../styles/theme";
 import Play from "../assets/icons/play.svg";
-import Stop from "../assets/icons/stop.svg";
+import Stop from "../assets/icons/Stop";
 import Mic from "../assets/icons/mic.svg";
 import Footer from "../components/CombinedComponents/Footer";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
@@ -20,14 +20,39 @@ const stepsListData = [
 const QuestionCreate: React.FC = () => {
     const navigate = useNavigate();
     const [sampleActive, setSampleActive] = useState<boolean>(false);
-    const { isRecording, trackUrl, startRecording, stopRecording } = useRecording({ initialTrackUrl: '' });
+    const {
+        isRecording,
+        trackUrl,
+        recordingTime,
+        permissionDenied,
+        startRecording,
+        stopRecording
+    } = useRecording({ initialTrackUrl: '' });
+    const [showModal, setShowModal] = useState(false);
+    const [hasFinishedRecording, setHasFinishedRecording] = useState<boolean>(false);
+
+    useEffect(() => {
+        setShowModal(permissionDenied);
+    }, [permissionDenied]);
 
     const handleRecording = () => {
-        if (!isRecording) {
-            startRecording()
+        console.log('permissions', permissionDenied)
+        if (permissionDenied) {
+            setShowModal(true);
         } else {
-            stopRecording()
+            if (!isRecording && !showModal) {
+                startRecording();
+                setHasFinishedRecording(false);
+            } else {
+                stopRecording();
+                setHasFinishedRecording(true);
+            }
         }
+    };
+
+    const formatTime = (time: string | number) => {
+        const pad = (num: number | string) => num.toString().padStart(2, '0');
+        return `00:${pad(time)}`;
     };
 
     const handlePlaySample = () => {
@@ -45,11 +70,11 @@ const QuestionCreate: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        if (trackUrl) {
+    const handleSaveAndNext = () => {
+        if (hasFinishedRecording && trackUrl) {
             navigate('/questioncreate', { state: { trackUrl } });
         }
-    }, [trackUrl, navigate]);
+    };
 
     return (
         <>
@@ -138,7 +163,10 @@ const QuestionCreate: React.FC = () => {
                                 border={`1px solid ${theme.colors.colorTextGray}`}
                                 marginRight={'16px'}
                             >
-                                <img src={sampleActive ? Stop : Play} alt="play"/>
+                                {sampleActive
+                                    ? <Stop width={'30px'} height={'30px'} color={'#777777'}/>
+                                    : <img src={Play} alt="play"/>
+                                }
                             </Block>
 
                             <Text
@@ -174,20 +202,70 @@ const QuestionCreate: React.FC = () => {
                             backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                         >
-                            <Text
-                                fontFamily={theme.fontFamily.inter}
-                                fontWeight={700}
-                                fontSize={20}
-                                marginRight={3}
-                                color={theme.colors.colorWhite}
-                            >
-                                {isRecording ? 'Save and Next' : 'Record'}
-                            </Text>
                             {isRecording
-                                ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
-                                : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                                ? <>
+                                    <Text
+                                        fontFamily={theme.fontFamily.inter}
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        marginRight={3}
+                                        color={theme.colors.colorWhite}
+                                    >
+                                        {formatTime(recordingTime)}
+                                    </Text>
+                                    <Stop color={theme.colors.colorWhite} width={'30px'} height={'30px'}/>
+                                </>
+                                :
+                                <>
+                                    <Text
+                                        fontFamily={theme.fontFamily.inter}
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        marginRight={3}
+                                        color={theme.colors.colorWhite}
+                                    >
+                                        Record
+                                    </Text>
+                                    <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                                </>
                             }
                         </Button>
+                        {showModal && (
+                            <Text
+                                mt={'10px'}
+                                fontFamily={theme.fontFamily.inter}
+                                fontWeight={400}
+                                fontSize={14}
+                                color={theme.colors.colorSecondaryRed}
+                            >
+                                Please go to settings and allow mic permissions.
+                            </Text>
+                        )}
+                        {hasFinishedRecording &&
+                            <Button
+                                width="100%"
+                                height="59px"
+                                mt={'20px'}
+                                borderRadius={14}
+                                borderWidth={0}
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                backgroundColor={theme.colors.colorPrimary}
+                                boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
+                                onClick={handleSaveAndNext}
+                            >
+                                <Text
+                                    fontFamily={theme.fontFamily.inter}
+                                    fontWeight={700}
+                                    fontSize={20}
+                                    marginRight={3}
+                                    color={theme.colors.colorWhite}
+                                >
+                                    Save & Next
+                                </Text>
+                            </Button>
+                        }
                     </Block>
                 </Block>
             </Container>
