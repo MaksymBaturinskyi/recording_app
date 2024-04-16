@@ -204,7 +204,7 @@ const QuestionShare: React.FC = () => {
                             mt={3}
                             onClick={handleCopyUrl}
                         >
-                            <img src={link} alt="play" style={{width: "17px", height: "17px"}}/>
+                            <img src={link} alt="play" style={{width: "20px", height: "20px"}}/>
                             <Text
                                 ml={'3px'}
                                 color={theme.colors.colorTextGray}

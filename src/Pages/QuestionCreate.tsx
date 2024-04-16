@@ -72,17 +72,16 @@ const QuestionCreate: React.FC = () => {
         } else {
             const audioSrc = isNewRecording ? newTrackUrl : initialTrackUrl;
             if (audioSrc) {
-                if (!audioRef.current) {
+                if (audioSrc && (!audioRef.current || audioRef.current.src !== audioSrc)) {
                     audioRef.current = new Audio(audioSrc);
                     audioRef.current.addEventListener('timeupdate', updateTime);
                     audioRef.current.addEventListener('ended', handleEnd);
-                } else {
-                    audioRef.current.src = audioSrc;
-                    audioRef.current.currentTime = 0;
                 }
 
-                audioRef.current.play().catch(error => console.error("Error playing the file:", error));
-                setSampleActive(true);
+                if (audioRef.current) {
+                    audioRef.current.play().catch(error => console.error("Error playing the file:", error));
+                    setSampleActive(true);
+                }
             }
         }
     };
@@ -113,9 +112,6 @@ const QuestionCreate: React.FC = () => {
         const seconds = Math.floor(time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
     };
-
-    console.log('duration', duration);
-    console.log('recDuration', recordingDuration);
 
     const formattedDuration = formatTime(isNewRecording ? recordingDuration : duration);
 
