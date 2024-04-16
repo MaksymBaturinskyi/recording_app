@@ -1,28 +1,28 @@
 {
   "files": {
     "main.css": "/recording_app/static/css/main.8bd6bf78.css",
-    "main.js": "/recording_app/static/js/main.f634ba15.js",
+    "main.js": "/recording_app/static/js/main.b0aca5eb.js",
     "static/js/5.47140143.chunk.js": "/recording_app/static/js/5.47140143.chunk.js",
     "static/js/806.9ba5ce24.chunk.js": "/recording_app/static/js/806.9ba5ce24.chunk.js",
     "static/js/453.7b4366c1.chunk.js": "/recording_app/static/js/453.7b4366c1.chunk.js",
     "static/media/sample.mp3": "/recording_app/static/media/sample.4539c0e4e90992119759.mp3",
     "static/media/google.svg": "/recording_app/static/media/google.dd1fb1b4870c274bb3013518f5b45855.svg",
     "static/media/mic.svg": "/recording_app/static/media/mic.917c0aaf555ec2dafad1ced197c50f02.svg",
-    "static/media/link.svg": "/recording_app/static/media/link.34e03cf4046e4807cde9b066e2031f0c.svg",
-    "static/media/play_white.svg": "/recording_app/static/media/play_white.6dadc0b2188f6f37c9ec381529da0005.svg",
+    "static/media/link.svg": "/recording_app/static/media/link.80f49df09f94b725110c6b9d25532d4e.svg",
     "index.html": "/recording_app/index.html",
-    "static/media/arrow-back.svg": "/recording_app/static/media/arrow-back.ff878681647ac659d6d33dccba5d5e46.svg",
+    "static/media/play_white.svg": "/recording_app/static/media/play_white.6dadc0b2188f6f37c9ec381529da0005.svg",
+    "static/media/arrow-back.svg": "/recording_app/static/media/arrow-back.9d7016ac650b2fc3d6c16438b40c840f.svg",
     "static/media/arrow_down.svg": "/recording_app/static/media/arrow_down.36737907f0ec424834cf6cf49371a69b.svg",
     "static/media/arrow_down_white.svg": "/recording_app/static/media/arrow_down_white.d8c81965a94589a3acc28a161bd9db50.svg",
-    "static/media/play.svg": "/recording_app/static/media/play.f778cd1a21992eee9d75bc6596ae376b.svg",
+    "static/media/play.svg": "/recording_app/static/media/play.4aa927132e898674f8c8287e3bb219fa.svg",
     "main.8bd6bf78.css.map": "/recording_app/static/css/main.8bd6bf78.css.map",
-    "main.f634ba15.js.map": "/recording_app/static/js/main.f634ba15.js.map",
+    "main.b0aca5eb.js.map": "/recording_app/static/js/main.b0aca5eb.js.map",
     "5.47140143.chunk.js.map": "/recording_app/static/js/5.47140143.chunk.js.map",
     "806.9ba5ce24.chunk.js.map": "/recording_app/static/js/806.9ba5ce24.chunk.js.map",
     "453.7b4366c1.chunk.js.map": "/recording_app/static/js/453.7b4366c1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8bd6bf78.css",
-    "static/js/main.f634ba15.js"
+    "static/js/main.b0aca5eb.js"
   ]
 }
