@@ -1,16 +1,16 @@
 import React, {useState} from "react";
-import {Block, Button, SimpleInput, Text} from "../components/SimpleComponents";
-import {Container} from "../components/SimpleComponents/Container";
+import {Block, Button, SimpleInput, Text} from "../../components/SimpleComponents";
+import {Container} from "../../components/SimpleComponents/Container";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import '../App.css'
+import '../../App.css'
 import {useNavigate} from "react-router-dom";
-import Footer from "../components/CombinedComponents/Footer";
-import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
-import {theme} from "../styles/theme";
-import link from "../assets/icons/link.svg";
-import back from "../assets/icons/arrow-back.svg";
-import ButtonBack from "../components/CombinedComponents/ButtonBack";
+import Footer from "../../components/CombinedComponents/Footer";
+import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
+import {theme} from "../../styles/theme";
+import link from "../../assets/icons/link.svg";
+import back from "../../assets/icons/arrow-back.svg";
+import ButtonBack from "../../components/CombinedComponents/ButtonBack";
 
 const QuestionShare: React.FC = () => {
     const [shareValue, setShareValue] = useState<string>("");

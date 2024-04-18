@@ -1,26 +1,21 @@
 import React, {useEffect, useState} from "react";
-import {Block, Button, Text} from "../components/SimpleComponents";
-import {Container} from "../components/SimpleComponents/Container";
+import {Block, Button, Text} from "../../components/SimpleComponents";
+import {Container} from "../../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
-import {theme} from "../styles/theme";
-import Play from "../assets/icons/play.svg";
-import Stop from "../assets/icons/Stop";
-import Mic from "../assets/icons/mic.svg";
-import Footer from "../components/CombinedComponents/Footer";
-import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
-import {useRecording} from "../helpers/useRecording";
-import sampleMp3 from '../assets/sounds/sample.mp3';
-import TextTitle from "../components/CombinedComponents/TextTitle";
+import {theme} from "../../styles/theme";
+import Stop from "../../assets/icons/Stop";
+import Mic from "../../assets/icons/mic.svg";
+import Footer from "../../components/CombinedComponents/Footer";
+import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
+import {useRecording} from "../../helpers/useRecording";
+import TextTitle from "../../components/CombinedComponents/TextTitle";
+import AudioSampleBlock from "./components/AudioSampleBlock";
+import StepList from "./components/StepList";
+import {handleFormatTime} from "../../helpers/handleFormatTime";
+import TextMicPermissions from "../../components/CombinedComponents/TextMicPermissions";
 
-const stepsListData = [
-    "1. Record a question",
-    "2. Invite your relatives to answer",
-    "3. We'll store it in your family history vault forever",
-]
-
-const QuestionCreate: React.FC = () => {
+const QuestionSteps: React.FC = () => {
     const navigate = useNavigate();
-    const [sampleActive, setSampleActive] = useState<boolean>(false);
     const {
         isRecording,
         trackUrl,
@@ -48,26 +43,6 @@ const QuestionCreate: React.FC = () => {
                 stopRecording();
                 setHasFinishedRecording(true);
             }
-        }
-    };
-
-    const formatTime = (time: string | number) => {
-        const pad = (num: number | string) => num.toString().padStart(2, '0');
-        return `00:${pad(time)}`;
-    };
-
-    const handlePlaySample = () => {
-        if (sampleActive) {
-            setSampleActive(false);
-        } else {
-            const audio = new Audio(sampleMp3);
-            setSampleActive(true);
-
-            audio.play().catch(error => console.error("Error playing the file:", error));
-
-            audio.addEventListener('ended', () => {
-                setSampleActive(false);
-            }, { once: true });
         }
     };
 
@@ -109,69 +84,10 @@ const QuestionCreate: React.FC = () => {
                         >
                             Question by questions
                         </Text>
-
-                        <Block
-                            mt={40}
-                            flexDirection={"column"}
-                            width={"100%"}
-                        >
-                            {
-                                stepsListData.map((step: string, index: number) => {
-                                    return (
-                                        <Block
-                                            key={index}
-                                        >
-                                            <Text
-                                                fontWeight={400}
-                                                fontSize={18}
-                                                color={theme.colors.colorTextGray}
-                                                fontFamily={theme.fontFamily.inter}
-                                                textIndent={"-21px"}
-                                                paddingLeft={"30px"}
-                                            >
-                                                {step}
-                                            </Text>
-                                        </Block>
-                                    );
-                                })
-                            }
-                        </Block>
+                        <StepList />
                     </Block>
-                    <Block flexDirection={'column'}>
-                        <Button
-                            display={'flex'}
-                            onClick={handlePlaySample}
-                            mt={40}
-                            width={'100%'}
-                            flexDirection={'row'}
-                            alignItems={'center'}
-                            height={'52px'}
-                        >
-                            <Block
-                                width={'40px'}
-                                height={'40px'}
-                                justifyContent={'center'}
-                                alignItems={'center'}
-                                borderRadius={'50px'}
-                                border={`1px solid ${theme.colors.colorTextGray}`}
-                                marginRight={'16px'}
-                            >
-                                {sampleActive
-                                    ? <Stop width={'30px'} height={'30px'} color={'#777777'}/>
-                                    : <img src={Play} alt="play"/>
-                                }
-                            </Block>
-
-                            <Text
-                                textAlign={'start'}
-                                fontFamily={theme.fontFamily.inter}
-                                fontWeight={400}
-                                fontSize={18}
-                                color={theme.colors.colorTextGray}
-                            >
-                                Listen to a sample question
-                            </Text>
-                        </Button>
+                    <Block flexDirection={'column'} position={'relative'}>
+                        <AudioSampleBlock />
                         <Text
                             marginTop={40}
                             fontWeight={700}
@@ -204,7 +120,7 @@ const QuestionCreate: React.FC = () => {
                                         marginRight={3}
                                         color={theme.colors.colorWhite}
                                     >
-                                        {formatTime(recordingTime)}
+                                        {handleFormatTime(recordingTime)}
                                     </Text>
                                     <Stop color={theme.colors.colorWhite} width={'30px'} height={'30px'}/>
                                 </>
@@ -223,17 +139,7 @@ const QuestionCreate: React.FC = () => {
                                 </>
                             }
                         </Button>}
-                        {showModal && (
-                            <Text
-                                mt={'10px'}
-                                fontFamily={theme.fontFamily.inter}
-                                fontWeight={400}
-                                fontSize={14}
-                                color={theme.colors.colorSecondaryRed}
-                            >
-                                Please go to settings and allow mic permissions.
-                            </Text>
-                        )}
+                        {showModal && <TextMicPermissions bottom={'-40px'} />}
                         {hasFinishedRecording &&
                             <Button
                                 width="100%"
@@ -267,4 +173,4 @@ const QuestionCreate: React.FC = () => {
     );
 };
 
-export default QuestionCreate;
+export default QuestionSteps;

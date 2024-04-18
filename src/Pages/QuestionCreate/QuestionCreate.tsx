@@ -1,19 +1,18 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {Block, Button, Text} from "../components/SimpleComponents";
-import {Container} from "../components/SimpleComponents/Container";
+import {Block, Button, Text} from "../../components/SimpleComponents";
+import {Container} from "../../components/SimpleComponents/Container";
 import {useLocation, useNavigate} from "react-router-dom";
-import play from "../assets/icons/play_white.svg";
-import back from "../assets/icons/arrow-back.svg";
-import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
-import {theme} from "../styles/theme";
-import Mic from "../assets/icons/mic.svg";
-import Footer from "../components/CombinedComponents/Footer";
-import {useRecording} from "../helpers/useRecording";
-import sampleMp3 from "../assets/sounds/sample.mp3";
-import Stop from "../assets/icons/Stop";
-import Play from "../assets/icons/play.svg";
-import ButtonBack from "../components/CombinedComponents/ButtonBack";
-import TextTitle from "../components/CombinedComponents/TextTitle";
+import play from "../../assets/icons/play_white.svg";
+import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
+import {theme} from "../../styles/theme";
+import Mic from "../../assets/icons/mic.svg";
+import Footer from "../../components/CombinedComponents/Footer";
+import {useRecording} from "../../helpers/useRecording";
+import Stop from "../../assets/icons/Stop";
+import ButtonBack from "../../components/CombinedComponents/ButtonBack";
+import TextTitle from "../../components/CombinedComponents/TextTitle";
+import {handleFormatTime} from "../../helpers/handleFormatTime";
+import TextMicPermissions from "../../components/CombinedComponents/TextMicPermissions";
 
 const QuestionCreate: React.FC = () => {
     const [sampleActive, setSampleActive] = useState<boolean>(false);
@@ -54,7 +53,7 @@ const QuestionCreate: React.FC = () => {
 
     const updateTime = useCallback(() => {
         if (audioRef.current) {
-            setCurrentTime(formatTime(audioRef.current.currentTime));
+            setCurrentTime(handleFormatTime(audioRef.current.currentTime));
         }
     }, []);
 
@@ -171,7 +170,7 @@ const QuestionCreate: React.FC = () => {
                         </Button>
                     </Block>
                     <Block width={'100%'} flexDirection={'column'} position={'relative'}>
-                        <TextTitle title={'Not happy?<br/>Re-record your question'} mt={['30px','0px','0px']} />
+                        <TextTitle title={'Not happy? Re-record your question'} mt={['30px','0px','0px']} />
                         <Button
                             width="100%"
                             height="59px"
@@ -200,19 +199,7 @@ const QuestionCreate: React.FC = () => {
                             }
                         </Button>
 
-                        {showModal && (
-                            <Text
-                                position={'absolute'}
-                                top={'180px'}
-                                mt={'10px'}
-                                fontFamily={theme.fontFamily.inter}
-                                fontWeight={400}
-                                fontSize={14}
-                                color={theme.colors.colorSecondaryRed}
-                            >
-                                Please go to settings and allow mic permissions.
-                            </Text>
-                        )}
+                        {showModal && <TextMicPermissions top={'170px'} />}
 
                         <Button
                             display={'flex'}

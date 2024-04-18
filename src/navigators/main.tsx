@@ -1,9 +1,9 @@
 import React from "react";
 import {RouterProvider, createBrowserRouter, createHashRouter} from 'react-router-dom';
-import CreateAccount from "../Pages/CreateAccount";
-import QuestionShare from "../Pages/QuestionShare";
-import QuestionCreate from "../Pages/QuestionCreate";
-import QuestionSteps from "../Pages/QuestionSteps";
+import CreateAccount from "../Pages/CreateAccount/CreateAccount";
+import QuestionShare from "../Pages/QuestionShare/QuestionShare";
+import QuestionCreate from "../Pages/QuestionCreate/QuestionCreate";
+import QuestionSteps from "../Pages/QuestionSteps/QuestionSteps";
 
 const router = createHashRouter([
     {

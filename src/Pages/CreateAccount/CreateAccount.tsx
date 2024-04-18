@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Block, Button, SimpleInput, Text} from "../components/SimpleComponents";
+import {Block, Button, SimpleInput, Text} from "../../components/SimpleComponents";
 import {LiveAudioVisualizer} from 'react-audio-visualize';
 import {useAudioRecorder} from 'react-audio-voice-recorder';
-import {Container} from "../components/SimpleComponents/Container";
+import {Container} from "../../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
-import {theme} from "../styles/theme";
-import google from "../assets/icons/google.svg";
-import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
-import back from "../assets/icons/arrow-back.svg";
-import Footer from "../components/CombinedComponents/Footer";
-import ButtonBack from "../components/CombinedComponents/ButtonBack";
-import TextTitle from "../components/CombinedComponents/TextTitle";
+import {theme} from "../../styles/theme";
+import google from "../../assets/icons/google.svg";
+import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
+import back from "../../assets/icons/arrow-back.svg";
+import Footer from "../../components/CombinedComponents/Footer";
+import ButtonBack from "../../components/CombinedComponents/ButtonBack";
+import TextTitle from "../../components/CombinedComponents/TextTitle";
 
 const formFields = [
     {
