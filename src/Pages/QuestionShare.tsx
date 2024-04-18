@@ -10,6 +10,7 @@ import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowCo
 import {theme} from "../styles/theme";
 import link from "../assets/icons/link.svg";
 import back from "../assets/icons/arrow-back.svg";
+import ButtonBack from "../components/CombinedComponents/ButtonBack";
 
 const QuestionShare: React.FC = () => {
     const [shareValue, setShareValue] = useState<string>("");
@@ -55,14 +56,7 @@ const QuestionShare: React.FC = () => {
                         width={'100%'}
                         flexDirection={'column'}
                     >
-                        <Block
-                            display={['none','block','block']}
-                            width={"100%"}
-                        >
-                            <Button onClick={() => navigate(-1)}>
-                                <img src={back} alt="back" style={{width: "20px", height: "20px"}}/>
-                            </Button>
-                        </Block>
+                        <ButtonBack />
                         <Text
                             mt={'10px'}
                             fontFamily={theme.fontFamily.inter}

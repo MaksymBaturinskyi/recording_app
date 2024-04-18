@@ -10,6 +10,7 @@ import Footer from "../components/CombinedComponents/Footer";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
 import {useRecording} from "../helpers/useRecording";
 import sampleMp3 from '../assets/sounds/sample.mp3';
+import TextTitle from "../components/CombinedComponents/TextTitle";
 
 const stepsListData = [
     "1. Record a question",
@@ -97,15 +98,7 @@ const QuestionCreate: React.FC = () => {
                     paddingBottom={[0,0,105]}
                 >
                     <Block flexDirection={'column'}>
-                        <Text
-                            fontFamily={theme.fontFamily.ebgaramond}
-                            fontWeight={700}
-                            fontSize={[32,32,33]}
-                            lineHeight={theme.lineHeights.title}
-                            width={"100%"}
-                        >
-                            Start building your family history vault.
-                        </Text>
+                        <TextTitle title={'Start building your family history vault.'} />
                         <Text
                             mt={20}
                             fontSize={28}
@@ -189,7 +182,7 @@ const QuestionCreate: React.FC = () => {
                             Ask a question you want answered
                         </Text>
 
-                        <Button
+                        {!hasFinishedRecording && <Button
                             width="100%"
                             height="59px"
                             mt={'20px'}
@@ -229,7 +222,7 @@ const QuestionCreate: React.FC = () => {
                                     <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
                                 </>
                             }
-                        </Button>
+                        </Button>}
                         {showModal && (
                             <Text
                                 mt={'10px'}

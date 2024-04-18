@@ -12,6 +12,8 @@ import {useRecording} from "../helpers/useRecording";
 import sampleMp3 from "../assets/sounds/sample.mp3";
 import Stop from "../assets/icons/Stop";
 import Play from "../assets/icons/play.svg";
+import ButtonBack from "../components/CombinedComponents/ButtonBack";
+import TextTitle from "../components/CombinedComponents/TextTitle";
 
 const QuestionCreate: React.FC = () => {
     const [sampleActive, setSampleActive] = useState<boolean>(false);
@@ -136,23 +138,8 @@ const QuestionCreate: React.FC = () => {
                     paddingBottom={[0,0,105]}
                 >
                     <Block mr={['0px','60px','60px']} width={'100%'} flexDirection={'column'}>
-                        <Block
-                            display={['none','block','block']}
-                            width={"100%"}
-                        >
-                            <Button onClick={() => navigate(-1)}>
-                                <img src={back} alt="back" style={{width: "20px", height: "20px"}}/>
-                            </Button>
-                        </Block>
-                        <Text
-                            fontFamily={theme.fontFamily.ebgaramond}
-                            fontWeight={700}
-                            fontSize={[32,32,33]}
-                            lineHeight={theme.lineHeights.title}
-                            width={"100%"}
-                        >
-                            Well done!
-                        </Text>
+                        <ButtonBack />
+                        <TextTitle title={'Well done!'}/>
 
                         <Button
                             display={'flex'}
@@ -184,16 +171,7 @@ const QuestionCreate: React.FC = () => {
                         </Button>
                     </Block>
                     <Block width={'100%'} flexDirection={'column'} position={'relative'}>
-                        <Text
-                            mt={['30px','0px','0px']}
-                            fontFamily={theme.fontFamily.ebgaramond}
-                            fontWeight={700}
-                            fontSize={[32,32,33]}
-                            lineHeight={theme.lineHeights.title}
-                            width={"100%"}
-                        >
-                            Not happy?<br/>Re-record your question
-                        </Text>
+                        <TextTitle title={'Not happy?<br/>Re-record your question'} mt={['30px','0px','0px']} />
                         <Button
                             width="100%"
                             height="59px"

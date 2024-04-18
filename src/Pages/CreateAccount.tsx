@@ -9,6 +9,8 @@ import google from "../assets/icons/google.svg";
 import HeaderArrowComponent from "../components/CombinedComponents/HeaderArrowComponent";
 import back from "../assets/icons/arrow-back.svg";
 import Footer from "../components/CombinedComponents/Footer";
+import ButtonBack from "../components/CombinedComponents/ButtonBack";
+import TextTitle from "../components/CombinedComponents/TextTitle";
 
 const formFields = [
     {
@@ -73,14 +75,7 @@ const AccountCreate: React.FC = () => {
                     paddingBottom={[0,0,105]}
                 >
                     <Block width={'100%'} flexDirection={'column'} mr={'10px'}>
-                        <Block
-                            display={['none','block','block']}
-                            width={"100%"}
-                        >
-                            <Button onClick={() => navigate(-1)}>
-                                <img src={back} alt="back" style={{width: "20px", height: "20px"}}/>
-                            </Button>
-                        </Block>
+                        <ButtonBack />
                         <Text
                             mt={5}
                             fontSize={28}
@@ -91,16 +86,7 @@ const AccountCreate: React.FC = () => {
                         >
                             And while they are answering
                         </Text>
-                        <Text
-                            mt={'5px'}
-                            fontFamily={theme.fontFamily.ebgaramond}
-                            fontWeight={700}
-                            fontSize={[32,32,33]}
-                            lineHeight={theme.lineHeights.title}
-                            width={"100%"}
-                        >
-                            Lets create your family account to listen to the answers
-                        </Text>
+                        <TextTitle title={'Lets create your family account to listen to the answers'} mt={['5px']} />
                     </Block>
                     <Block
                         justifyContent={"center"}
