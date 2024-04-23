@@ -38,19 +38,17 @@ const QuestionSteps: React.FC = () => {
         } else {
             if (!isRecording && !showModal) {
                 startRecording();
-                setHasFinishedRecording(false);
             } else {
                 stopRecording();
-                setHasFinishedRecording(true);
             }
         }
     };
 
-    const handleSaveAndNext = () => {
-        if (hasFinishedRecording && trackUrl) {
+    useEffect(() => {
+        if (trackUrl) {
             navigate('/questioncreate', { state: { trackUrl, recordingDuration } });
         }
-    };
+    }, [trackUrl ]);
 
     return (
         <>
@@ -98,7 +96,7 @@ const QuestionSteps: React.FC = () => {
                             Ask a question you want answered
                         </Text>
 
-                        {!hasFinishedRecording && <Button
+                        <Button
                             width="100%"
                             height="59px"
                             mt={'20px'}
@@ -138,33 +136,8 @@ const QuestionSteps: React.FC = () => {
                                     <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
                                 </>
                             }
-                        </Button>}
+                        </Button>
                         {showModal && <TextMicPermissions bottom={'-40px'} />}
-                        {hasFinishedRecording &&
-                            <Button
-                                width="100%"
-                                height="59px"
-                                mt={'20px'}
-                                borderRadius={14}
-                                borderWidth={0}
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                backgroundColor={theme.colors.colorPrimary}
-                                boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
-                                onClick={handleSaveAndNext}
-                            >
-                                <Text
-                                    fontFamily={theme.fontFamily.inter}
-                                    fontWeight={700}
-                                    fontSize={20}
-                                    marginRight={3}
-                                    color={theme.colors.colorWhite}
-                                >
-                                    Save & Next
-                                </Text>
-                            </Button>
-                        }
                     </Block>
                 </Block>
             </Container>
