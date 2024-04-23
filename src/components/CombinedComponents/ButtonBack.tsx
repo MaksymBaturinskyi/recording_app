@@ -7,7 +7,6 @@ const ButtonBack = () => {
     const navigate = useNavigate();
     return (
         <Block
-            display={['none','block','block']}
             width={"100%"}
         >
             <Button onClick={() => navigate(-1)}>

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import {Block} from "./Block";
 import {layout} from "styled-system";
-import {useWindowSize} from "../../helpers/useWindowSize";
 
 export const Container = styled(Block)`
     margin: 0 auto;

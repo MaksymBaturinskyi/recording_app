@@ -110,7 +110,8 @@ const QuestionSteps: React.FC = () => {
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                         >
                             {isRecording
-                                ? <>
+                                ?
+                                <>
                                     <Text
                                         fontFamily={theme.fontFamily.inter}
                                         fontWeight={700}

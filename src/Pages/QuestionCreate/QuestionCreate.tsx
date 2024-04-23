@@ -13,6 +13,7 @@ import ButtonBack from "../../components/CombinedComponents/ButtonBack";
 import TextTitle from "../../components/CombinedComponents/TextTitle";
 import {handleFormatTime} from "../../helpers/handleFormatTime";
 import TextMicPermissions from "../../components/CombinedComponents/TextMicPermissions";
+import {MainContainer} from "../../components/SimpleComponents/MainContainer";
 
 const QuestionCreate: React.FC = () => {
     const [sampleActive, setSampleActive] = useState<boolean>(false);
@@ -33,6 +34,7 @@ const QuestionCreate: React.FC = () => {
         startRecording,
         stopRecording,
         clearRecording,
+        recordingTime,
         recordingDuration,
         permissionDenied
     } = useRecording({ initialTrackUrl });
@@ -41,15 +43,20 @@ const QuestionCreate: React.FC = () => {
         if (permissionDenied) {
             setShowModal(true)
         } else {
-            clearRecording();
-            startRecording();
-            setIsNewRecording(true);
+            if(!isNewRecording || !isRecording) {
+                clearRecording();
+                startRecording();
+                setIsNewRecording(true);
+            } else {
+                stopRecording();
+            }
+
         }
     };
 
-    const handleSaveAndNext = () => {
-        stopRecording();
-    };
+    // const handleSaveAndNext = () => {
+    //     stopRecording();
+    // };
 
     const updateTime = useCallback(() => {
         if (audioRef.current) {
@@ -117,13 +124,12 @@ const QuestionCreate: React.FC = () => {
     const formattedDuration = formatTime(isNewRecording ? recordingDuration : duration);
 
     return (
-        <>
+        <MainContainer>
             <Container
-                pt={5}
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                minHeight={"100vh"}
+                // minHeight={"100vh"}
             >
                 <HeaderArrowComponent />
 
@@ -132,9 +138,9 @@ const QuestionCreate: React.FC = () => {
                     flexDirection={['column', 'row', 'row']}
                     width={"100%"}
                     maxWidth={'830px'}
-                    mt={['20px', '20px', '132px']}
-                    paddingTop={[0,0,105]}
-                    paddingBottom={[0,0,105]}
+                    mt={['20px', '20px', '50px']}
+                    // paddingTop={[0,0,105]}
+                    // paddingBottom={[0,0,105]}
                 >
                     <Block mr={['0px','60px','60px']} width={'100%'} flexDirection={'column'}>
                         <ButtonBack />
@@ -180,22 +186,36 @@ const QuestionCreate: React.FC = () => {
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
-                            onClick={isRecording ? handleSaveAndNext : handleReRecording}
+                            onClick={handleReRecording}
                             backgroundColor={ isRecording ? theme.colors.colorPrimary : theme.colors.colorSecondaryRed}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"
                         >
-                            <Text
-                                fontFamily={theme.fontFamily.inter}
-                                fontWeight={700}
-                                fontSize={20}
-                                marginRight={3}
-                                color={theme.colors.colorWhite}
-                            >
-                                {isRecording ? 'Save and Next' : 'Record again'}
-                            </Text>
-                            {isRecording
-                                ? <Block width={'20px'} height={'20px'} borderRadius={'20px'} backgroundColor={theme.colors.colorSecondaryRed}></Block>
-                                : <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                            {isRecording ?
+                                <>
+                                    <Text
+                                        fontFamily={theme.fontFamily.inter}
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        marginRight={3}
+                                        color={theme.colors.colorWhite}
+                                    >
+                                        {handleFormatTime(recordingTime)}
+                                    </Text>
+                                    <Stop color={theme.colors.colorWhite} width={'30px'} height={'30px'}/>
+                                </>
+                                :
+                                <>
+                                    <Text
+                                        fontFamily={theme.fontFamily.inter}
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        marginRight={3}
+                                        color={theme.colors.colorWhite}
+                                    >
+                                        Record again
+                                    </Text>
+                                    <img src={Mic} alt="mic" style={{width: "30px", height: "30px"}}/>
+                                </>
                             }
                         </Button>
 
@@ -229,7 +249,7 @@ const QuestionCreate: React.FC = () => {
                 </Block>
             </Container>
             <Footer />
-        </>
+        </MainContainer>
     );
 };
 

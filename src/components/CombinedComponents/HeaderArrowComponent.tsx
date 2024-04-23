@@ -8,10 +8,9 @@ const HeaderArrowComponent = () => {
         <Block
             width={'100%'}
             height={'52px'}
-            marginBottom={[0,0,32]}
+            mt={'32px'}
             borderRadius={20}
-            paddingLeft={[0,0,30.5]}
-            paddingTop={'4px'}
+            padding={[0,0,'12px 0px 12px 30.5px']}
             alignItems={'center'}
             backgroundColor={['transparent','transparent', theme.colors.colorSecBg]}
         >

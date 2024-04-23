@@ -31,12 +31,14 @@ const Footer = () => {
             // position={'relative'}
             // bottom={'0px'}
             width={'100%'}
+            marginTop={'50px'}
             height={['200px','250px','250px']}
             backgroundColor={theme.colors.colorPrimary}
         >
             <Container
                 maxWidth={'926px'}
                 width={'100%'}
+                padding={'20px'}
                 justifyContent={['','space-between','space-between']}
                 alignItems={'center'}
                 flexDirection={['column', 'row', 'row']}
