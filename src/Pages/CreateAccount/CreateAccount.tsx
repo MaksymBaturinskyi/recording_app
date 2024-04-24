@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Block, Button, SimpleInput, Text} from "../../components/SimpleComponents";
-import {LiveAudioVisualizer} from 'react-audio-visualize';
-import {useAudioRecorder} from 'react-audio-voice-recorder';
 import {Container} from "../../components/SimpleComponents/Container";
 import {useNavigate} from "react-router-dom";
 import {theme} from "../../styles/theme";
 import google from "../../assets/icons/google.svg";
 import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
-import back from "../../assets/icons/arrow-back.svg";
 import Footer from "../../components/CombinedComponents/Footer";
 import ButtonBack from "../../components/CombinedComponents/ButtonBack";
 import TextTitle from "../../components/CombinedComponents/TextTitle";
+import {MainContainer} from "../../components/SimpleComponents/MainContainer";
 
 const formFields = [
     {
@@ -39,7 +37,7 @@ interface loginFormInterface {
 }
 
 const AccountCreate: React.FC = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [formValue, setFormValue] = useState<loginFormInterface>({});
 
@@ -56,13 +54,11 @@ const AccountCreate: React.FC = () => {
         // navigate('/accountcreate')
     }
     return (
-        <>
+        <MainContainer>
             <Container
-                pt={5}
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                minHeight={"100vh"}
             >
                 <HeaderArrowComponent />
                 <Block
@@ -70,9 +66,7 @@ const AccountCreate: React.FC = () => {
                     flexDirection={['column', 'row', 'row']}
                     width={"100%"}
                     maxWidth={'830px'}
-                    mt={['20px', '20px', '132px']}
-                    paddingTop={[0,0,105]}
-                    paddingBottom={[0,0,105]}
+                    mt={['20px', '20px', '80px']}
                 >
                     <Block width={'100%'} flexDirection={'column'} mr={'10px'}>
                         <ButtonBack />
@@ -210,7 +204,7 @@ const AccountCreate: React.FC = () => {
                 </Block>
             </Container>
             <Footer />
-        </>
+        </MainContainer>
     );
 };
 

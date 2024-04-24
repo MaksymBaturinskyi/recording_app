@@ -9,8 +9,8 @@ import Footer from "../../components/CombinedComponents/Footer";
 import HeaderArrowComponent from "../../components/CombinedComponents/HeaderArrowComponent";
 import {theme} from "../../styles/theme";
 import link from "../../assets/icons/link.svg";
-import back from "../../assets/icons/arrow-back.svg";
 import ButtonBack from "../../components/CombinedComponents/ButtonBack";
+import {MainContainer} from "../../components/SimpleComponents/MainContainer";
 
 const QuestionShare: React.FC = () => {
     const [shareValue, setShareValue] = useState<string>("");
@@ -32,13 +32,11 @@ const QuestionShare: React.FC = () => {
     }
 
     return (
-        <>
+        <MainContainer>
             <Container
-                pt={5}
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                minHeight={"100vh"}
             >
                 <HeaderArrowComponent />
 
@@ -47,9 +45,7 @@ const QuestionShare: React.FC = () => {
                     flexDirection={['column', 'row', 'row']}
                     width={"100%"}
                     maxWidth={'830px'}
-                    mt={['20px', '20px', '132px']}
-                    paddingTop={[0,0,105]}
-                    paddingBottom={[0,0,105]}
+                    mt={['20px', '20px', '100px']}
                 >
                     <Block
                         mr={['0px','60px','60px']}
@@ -213,7 +209,7 @@ const QuestionShare: React.FC = () => {
                 </Block>
             </Container>
             <Footer />
-        </>
+        </MainContainer>
     );
 };
 

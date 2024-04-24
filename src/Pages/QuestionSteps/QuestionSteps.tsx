@@ -13,6 +13,7 @@ import AudioSampleBlock from "./components/AudioSampleBlock";
 import StepList from "./components/StepList";
 import {handleFormatTime} from "../../helpers/handleFormatTime";
 import TextMicPermissions from "../../components/CombinedComponents/TextMicPermissions";
+import {MainContainer} from "../../components/SimpleComponents/MainContainer";
 
 const QuestionSteps: React.FC = () => {
     const navigate = useNavigate();
@@ -51,13 +52,11 @@ const QuestionSteps: React.FC = () => {
     }, [trackUrl ]);
 
     return (
-        <>
+        <MainContainer>
             <Container
-                pt={5}
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                minHeight={'100vh'}
             >
                 <HeaderArrowComponent />
 
@@ -66,9 +65,7 @@ const QuestionSteps: React.FC = () => {
                     flexDirection={['column', 'column', 'row']}
                     width={"100%"}
                     maxWidth={'830px'}
-                    mt={['20px', '20px', '132px']}
-                    paddingTop={[0,0,105]}
-                    paddingBottom={[0,0,105]}
+                    mt={['20px', '20px', '100px']}
                 >
                     <Block flexDirection={'column'}>
                         <TextTitle title={'Start building your family history vault.'} />
@@ -143,7 +140,7 @@ const QuestionSteps: React.FC = () => {
                 </Block>
             </Container>
             <Footer />
-        </>
+        </MainContainer>
     );
 };
 

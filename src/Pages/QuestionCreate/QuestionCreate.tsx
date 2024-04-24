@@ -129,7 +129,6 @@ const QuestionCreate: React.FC = () => {
                 flexDirection={"column"}
                 alignItems={"center"}
                 width={"100%"}
-                // minHeight={"100vh"}
             >
                 <HeaderArrowComponent />
 
@@ -138,9 +137,7 @@ const QuestionCreate: React.FC = () => {
                     flexDirection={['column', 'row', 'row']}
                     width={"100%"}
                     maxWidth={'830px'}
-                    mt={['20px', '20px', '50px']}
-                    // paddingTop={[0,0,105]}
-                    // paddingBottom={[0,0,105]}
+                    mt={['20px', '20px', '100px']}
                 >
                     <Block mr={['0px','60px','60px']} width={'100%'} flexDirection={'column'}>
                         <ButtonBack />
@@ -227,7 +224,7 @@ const QuestionCreate: React.FC = () => {
                             alignItems={'center'}
                             width={"100%"}
                             height={"59px"}
-                            mt={'140px'}
+                            mt={['140px','80px','80px']}
                             borderRadius={14}
                             backgroundColor={theme.colors.colorPrimary}
                             boxShadow="4.95px 4.95px 9.9px 0 rgba(0, 0, 0, 0.2)"

@@ -10,9 +10,9 @@ const HeaderArrowComponent = () => {
             height={'52px'}
             mt={'32px'}
             borderRadius={20}
-            padding={[0,0,'12px 0px 12px 30.5px']}
+            padding={[0,'12px 0px 12px 30.5px','12px 0px 12px 30.5px']}
             alignItems={'center'}
-            backgroundColor={['transparent','transparent', theme.colors.colorSecBg]}
+            backgroundColor={['transparent',theme.colors.colorSecBg, theme.colors.colorSecBg]}
         >
             <img src={Arrow} alt="play" style={{
                 width: "28px",

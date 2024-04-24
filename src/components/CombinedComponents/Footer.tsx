@@ -28,8 +28,8 @@ const Footer = () => {
             display={['none','flex','flex']}
             justifyContent={['','space-between', 'space-between']}
             alignItems={['','center','center']}
-            // position={'relative'}
-            // bottom={'0px'}
+            position={'absolute'}
+            bottom={'0px'}
             width={'100%'}
             marginTop={'50px'}
             height={['200px','250px','250px']}
@@ -111,7 +111,7 @@ const Footer = () => {
                                     key={index}
                                 >
                                     <InteractiveText
-                                        marginBottom={[0,24,24]}
+                                        marginBottom={[0,16,16]}
                                         marginRight={['5px',0,0]}
                                         fontWeight={400}
                                         fontSize={16}
